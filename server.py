@@ -62,7 +62,6 @@ def create_game():
         "usernames": [None, None],
         "messages": [],
         "board": [[None for row in range(6)] for column in range(7)],
-        "fullness": [0 for column in range(7)],
         "whose_turn": 0,
         "outcome": None
     }
@@ -75,7 +74,7 @@ def assign_seat(seat_number):
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    if game["players"][seat_number] == None:
+    if game["players"][seat_number] is None:
         game["players"][seat_number] = session["player_id"]
         game["usernames"][seat_number] = session["username"]
 
@@ -99,14 +98,13 @@ def handle_move_request(column):
     if not 0 <= column < 7:
         return
 
-    row = game["fullness"][column]
+    row = sum(space is not None for space in game["board"][column])
     if row >= 6:
         return
     
     move_data = { "column": column, "row": row, "player": whose_turn }
 
     game["board"][column][row] = whose_turn
-    game["fullness"][column] += 1
     game["outcome"] = outcome(game["board"], (column, row))
     game["whose_turn"] = int(not whose_turn)
 
