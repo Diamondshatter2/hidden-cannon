@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('chat_form').addEventListener('submit', event => {
         event.preventDefault();
         chat_socket.emit('submit message', message_box.value);
-        message_box.value = null;
+        message_box.value = '';
     });
 });
 

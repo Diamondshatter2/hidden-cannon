@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', event => { 
         event.preventDefault();
-        socket.emit('new game', name.value) });
-        name.value = null; // this isn't working for some reason
+        socket.emit('new game', name.value);
+        name.value = '';
+    });
 });
 
 function add_game_to_list(game) {
