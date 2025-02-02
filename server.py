@@ -109,8 +109,9 @@ def handle_move_request(column):
     socketio.emit("refresh indicator", { "outcome": game["outcome"], "whose_turn": game["whose_turn"] }, room=game_id)
 
 
-@socketio.on("send message")
-def send_message(message):
+@socketio.on("submit message")
+def send_message(message_content):
+    message = { "sender": session["username"], "content": message_content }
     games[request.args.get("game_id")]["messages"].append(message)
     socketio.emit("update chat", message)
 

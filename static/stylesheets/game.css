@@ -50,15 +50,16 @@
 #chat {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     height: 80vh;
     width: 20vw;
     border: 1px solid black;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-#chat_message {
+#message_box {
     width: 100%; 
-    margin: 0;
+    margin-top: auto;
     padding: 0;
     box-sizing: border-box;
 }
