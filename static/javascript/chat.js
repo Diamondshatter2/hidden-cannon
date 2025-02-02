@@ -21,4 +21,7 @@ function update_chat(message) {
 }
 
 chat_socket.on('update chat', update_chat);
-chat_socket.on('refresh chat', messages => messages.forEach(message => update_chat(message)));
+
+chat_socket.on('refresh chat', messages => {
+    messages.forEach(message => update_chat(message));
+});

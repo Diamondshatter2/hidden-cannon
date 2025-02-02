@@ -54,7 +54,7 @@ socket.on('refresh indicator', data => {
     else {
         end_sound.play();
         indicator.innerHTML = ((outcome == 'draw') ? 'Draw' : `${player_names[outcome]} wins`); 
-        indicator.classList.add('message');
+        indicator.classList.add('outcome');
     }
 });
 

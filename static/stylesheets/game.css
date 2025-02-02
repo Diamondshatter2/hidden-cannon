@@ -39,7 +39,7 @@
     margin-top: 6vh;
 }
 
-.message {
+.outcome {
     padding: 1.5vh;
     border: 0.5vh solid black;
     font-size: 5vh;
@@ -59,7 +59,4 @@
 
 #message_box {
     width: 100%; 
-    margin-top: auto;
-    padding: 0;
-    box-sizing: border-box;
 }
