@@ -52,10 +52,11 @@ def connect_to_chat():
 
 
 @socketio.on("new game")
-def create_game():
+def create_game(game_name):
     game_id = str(generate_id())
 
     games[game_id] = {
+        "name": game_name,
         "creator": session["username"],
         "players": [None, None],
         "usernames": [None, None],
@@ -65,7 +66,7 @@ def create_game():
         "outcome": None
     }
 
-    socketio.emit("add game to list", { "id": game_id, "creator": games[game_id]["creator"] })
+    socketio.emit("add game to list", { "id": game_id, "name": game_name, "creator": games[game_id]["creator"] })
 
 
 @socketio.on("request seat")
@@ -117,7 +118,7 @@ def send_message(message_content):
     message = { "sender": session["username"], "content": message_content }
     games[game_id]["messages"].append(message)
     socketio.emit("update chat", message, room=game_id)
-
+    
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=5000, debug=True)

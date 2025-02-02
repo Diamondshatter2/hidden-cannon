@@ -3,15 +3,18 @@ const socket = io.connect();
 socket.emit('connect to lobby');
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('button').addEventListener('click', () => { socket.emit('new game') });
+    const form = document.getElementById('new_game_form'), name = document.getElementById('game_name');
+    form.addEventListener('submit', event => { 
+        event.preventDefault();
+        socket.emit('new game', name.value) });
 });
 
 function add_game_to_list(game) {
-    const id = game['id'], creator = game['creator'];
+    const id = game['id'], name = game['name'], creator = game['creator'];
     const link = document.createElement('a');
     link.classList.add('game');
     link.href = `/play?game_id=${id}` 
-    link.innerText = `Game by ${creator}`; 
+    link.innerText = name; 
     document.getElementById('games').appendChild(link);
 }
 

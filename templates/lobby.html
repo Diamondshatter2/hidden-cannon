@@ -12,11 +12,16 @@
     </head>
 
     <body>
-        <div id="container">
-            <div id="header">Games</div>
+        <div id="games_container">
+            <div class="header">Join a game</div>
             <div id="games"></div>
-            <button id="button">Create game</button>
-            <div id="game_link"></div>
+        </div>
+        <div id="new_game_container">
+            <div class="header">Create a game</div>
+            <form id="new_game_form">
+                <input id="game_name" autocomplete="off" placeholder="Name (eg 'My Game')"></input>
+                <button id="button">Create game</button>
+            </form>
         </div>
     </body>
 </html>
