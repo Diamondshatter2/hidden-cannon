@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function add_game_to_list(game) {
-    const id = game['id'], name = game['name'], creator = game['creator'];
+    const id = game['id'], name = game['name'];
     const link = document.createElement('a');
     link.classList.add('game');
     link.href = `/play?game_id=${id}` 
-    link.innerText = (name == '' ? `Game by ${creator}` : name); 
+    link.innerText = name;
     document.getElementById('games').appendChild(link);
 }
 

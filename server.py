@@ -23,15 +23,17 @@ def serve_lobby():
 
 @app.route("/play")
 def serve_game(): 
-    if request.args.get("game_id") not in games:
+    game_id = request.args.get("game_id")
+    if game_id not in games:
         return "Invalid game ID", 404
     
-    return render_template("game.html")
+    return render_template("game.html", game_name=games[game_id]["name"])
 
 
 @socketio.on("connect to lobby")
 def refresh_games_list():
-    socketio.emit("refresh games list", [{ "id": game_id, "name": games[game_id]["name"], "creator": games[game_id]["creator"] } for game_id in games], room=request.sid)
+    games_metadata =  [{ "id": game_id, "name": games[game_id]["name"], "creator": games[game_id]["creator"] } for game_id in games]
+    socketio.emit("refresh games list", games_metadata, room=request.sid)
 
 
 @socketio.on("connect to game")
@@ -55,6 +57,9 @@ def connect_to_chat():
 def create_game(game_name):
     game_id = str(generate_id())
 
+    if not game_name:
+        game_name = f"Game by {session['username']}"
+
     games[game_id] = {
         "name": game_name,
         "creator": session["username"],
@@ -66,7 +71,7 @@ def create_game(game_name):
         "outcome": None
     }
 
-    socketio.emit("add game to list", { "id": game_id, "name": game_name, "creator": games[game_id]["creator"] })
+    socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
 
 @socketio.on("request seat")

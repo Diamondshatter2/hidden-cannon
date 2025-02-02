@@ -6,7 +6,7 @@ chat_socket.emit('connect to chat');
 
 document.addEventListener('DOMContentLoaded', () => {
     chat = document.getElementById('messages'), message_box = document.getElementById('message_box');
-    chat.scrollTop = chat.scrollHeight;
+    chat.scrollTop = chat.scrollHeight; // idk
     
     document.getElementById('chat_form').addEventListener('submit', event => {
         event.preventDefault();
