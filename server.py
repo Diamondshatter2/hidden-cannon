@@ -31,7 +31,7 @@ def serve_game():
 
 @socketio.on("connect to lobby")
 def refresh_games_list():
-    socketio.emit("refresh games list", [{ "id": game_id, "creator": games[game_id]["creator"] } for game_id in games], room=request.sid)
+    socketio.emit("refresh games list", [{ "id": game_id, "name": games[game_id]["name"], "creator": games[game_id]["creator"] } for game_id in games], room=request.sid)
 
 
 @socketio.on("connect to game")
