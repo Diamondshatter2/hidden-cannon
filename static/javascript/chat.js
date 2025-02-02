@@ -5,7 +5,7 @@ const chat_socket = io.connect({ query: { game_id } });
 chat_socket.emit('connect to chat');
 
 document.addEventListener('DOMContentLoaded', () => {
-    chat = document.getElementById('chat'), message_box = document.getElementById('message_box');
+    chat = document.getElementById('messages'), message_box = document.getElementById('message_box');
     document.getElementById('chat_form').addEventListener('submit', event => {
         event.preventDefault();
         chat_socket.emit('submit message', message_box.value);

@@ -47,7 +47,7 @@
     background-color: rgb(154, 154, 154);
 }
 
-#chat {
+#messages {
     display: flex;
     flex-direction: column;
     height: 80vh;
