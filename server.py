@@ -1,7 +1,6 @@
 from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
-from uuid import uuid4 as generate_id
-from secrets import token_hex
+from uuid import uuid4 as generate_id; from secrets import token_hex
 from game import outcome
 
 app = Flask(__name__)
