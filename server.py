@@ -18,8 +18,8 @@ def assign_player_id():
 
 
 @app.route("/")
-def serve_index():
-    return render_template("index.html")
+def serve_lobby():
+    return render_template("lobby.html")
 
 
 @app.route("/play")
@@ -30,7 +30,7 @@ def serve_game():
     return render_template("game.html")
 
 
-@socketio.on("connect to index")
+@socketio.on("connect to lobby")
 def refresh_games_list():
     socketio.emit("refresh games list", [{ "id": game_id, "creator": games[game_id]["creator"] } for game_id in games], room=request.sid)
 

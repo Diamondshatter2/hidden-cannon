@@ -1,6 +1,6 @@
 const socket = io.connect();
 
-socket.emit('connect to index');
+socket.emit('connect to lobby');
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('button').addEventListener('click', () => { socket.emit('new game') });
