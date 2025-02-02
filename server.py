@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, redirect, url_for, request
+from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id
 from secrets import token_hex
@@ -44,7 +44,12 @@ def connect_to_game():
     socketio.emit("refresh board", game["board"], room=request.sid)
     socketio.emit("refresh indicator", { "outcome": game["outcome"], "whose_turn": game["whose_turn"] }, room=request.sid)
     socketio.emit("refresh seats", game["usernames"], room=request.sid) 
-    socketio.emit("refresh chat", game["messages"])
+
+
+@socketio.on("connect to chat")
+def connect_to_chat():
+    join_room(request.args.get("game_id"))
+    socketio.emit("refresh chat", games[request.args.get("game_id")]["messages"], room=request.sid)
 
 
 @socketio.on("new game")
@@ -111,9 +116,10 @@ def handle_move_request(column):
 
 @socketio.on("submit message")
 def send_message(message_content):
+    game_id = request.args.get("game_id")
     message = { "sender": session["username"], "content": message_content }
-    games[request.args.get("game_id")]["messages"].append(message)
-    socketio.emit("update chat", message)
+    games[game_id]["messages"].append(message)
+    socketio.emit("update chat", message, room=game_id)
 
 
 if __name__ == "__main__":
