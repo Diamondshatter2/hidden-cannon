@@ -29,19 +29,11 @@ def serve_game():
         return "Invalid game ID", 404
 
 
-@socketio.on("connect to game")
-def connect_to_game():
+@socketio.on("connect")
+def add_connection_to_room():
     game_id = request.args.get("game_id")
-    game = games[game_id]
-    join_room(game_id)  
-
-    socketio.emit("refresh indicator", { "outcome": game["outcome"], "whose_turn": game["whose_turn"] }, room=request.sid)
-    socketio.emit("refresh seats", game["usernames"], room=request.sid) 
-
-
-@socketio.on("connect to chat")
-def connect_to_chat():
-    join_room(request.args.get("game_id"))
+    if game_id:
+        join_room(game_id)
 
 
 @socketio.on("new game")
@@ -74,7 +66,7 @@ def assign_seat(seat_number):
         game["players"][seat_number] = session["player_id"]
         game["usernames"][seat_number] = session["username"]
 
-        socketio.emit("refresh seats", game["usernames"], room=game_id) 
+        socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
 
 
 @socketio.on("request move")
@@ -105,7 +97,9 @@ def handle_move_request(column):
     game["whose_turn"] = int(not whose_turn)
 
     socketio.emit("make move", move_data, room=game_id)
-    socketio.emit("refresh indicator", { "outcome": game["outcome"], "whose_turn": game["whose_turn"] }, room=game_id)
+
+    if game["outcome"] is not None:
+        socketio.emit("end game", game["outcome"], room=game_id)
 
 
 @socketio.on("submit message")

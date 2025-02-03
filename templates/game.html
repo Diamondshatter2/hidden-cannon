@@ -2,9 +2,7 @@
 
 <html>
     <head>
-        {% set game_name, board, messages = game["game_name"], game["board"], game["messages"] %} 
-
-        <title>{{ game_name }}</title>
+        <title>{{ game["name"] }}</title>
         
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/game.css') }}">
@@ -17,13 +15,23 @@
     </head>
 
     <body>
-        <div id="seats">
+        <div id="seats"> <!--Todo: refactor this to avoid duplication-->
             <div>
-                Player 1: <span class="seat"><button class="seat_button">Take seat</button></span>
+                Player 1: <span class="seat">
+                {% if game["usernames"][0] is none %}
+                    <button class="seat_button">Take seat</button></span>
+                {% else %}
+                    {{ game["usernames"][0] }}
+                {% endif %}
             </div>
             <br><br><br>
             <div>
-                Player 2: <span class="seat"><button class="seat_button">Take seat</button></span>
+                Player 2: <span class="seat">
+                {% if game["usernames"][1] is none %}
+                    <button class="seat_button">Take seat</button></span>
+                {% else %}
+                    {{ game["usernames"][1] }}
+                {% endif %}
             </div>
         </div>
         <div id="board_container">
@@ -31,19 +39,25 @@
                 {% for column in range(7) %}
                     <div class="column">
                         {% for space in range(6) %}
-                            {% set color = colors[board[column][space]] %}
+                            {% set color = colors[game["board"][column][space]] %}
                             <div class="space" style="background-color: {{ color }};"></div>
                         {% endfor %}
                     </div>
                 {% endfor %}
             </div>
             <div id="indicator">
-                <div class="space" style="border-width: 0.5vh;"></div>
+                {% if game["outcome"] is none %}
+                    {% set color = colors[game["whose_turn"]] %}
+                    <div class="space" style="border-width: 0.5vh; background-color: {{ color }};"></div>
+                {% else %}
+                    {% set outcome = "Draw" if game["outcome"] == "draw" else "win" %} <!--INCOMPLETE REFACTORING-->
+                    <div class="outcome">{{ outcome }}</div>
+                {% endif %}
             </div>
         </div>
         <div id="chat_container">
             <div id="messages">
-                {% for message in messages %}
+                {% for message in game["messages"] %}
                     <span style="font-weight: bold;">{{ message["sender"] }}</span> <!--add class instead of inline styling-->
                     <span>{{ message["content"] }}</span>
                     <br>

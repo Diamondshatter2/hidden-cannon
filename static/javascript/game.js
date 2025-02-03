@@ -1,4 +1,4 @@
-const player_names = ['Red', 'Yellow'], player_colors = ['red', 'yellow'];
+const player_names = ['Red', 'Yellow'], colors = ['red', 'yellow'];
 let columns, seats, seat_buttons, indicator;
 
 const drop_sounds = [1, 2, 3, 4, 5].map(number => new Audio(`/static/audio/disc-drop-${number}.mp3`));
@@ -21,39 +21,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function request_seat() {
-    socket.emit('request seat', seat_buttons.indexOf(this)); 
+    socket.emit('request seat', seats.indexOf(this.parentElement)); 
 }
+
+socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 
 function request_move() {
     socket.emit('request move', columns.indexOf(this));
 }
 
 socket.on('make move', move_data => {
-    const column_index = move_data["column"], row_index = move_data["row"], player = move_data["player"];
-    const space = columns[column_index].children[row_index];
+    const space = columns[move_data["column"]].children[move_data["row"]];
+    const player = move_data["player"];
 
     drop_sounds[Math.floor(Math.random() * drop_sounds.length)].play();
-    space.style.backgroundColor = player_colors[player];
+    space.style.backgroundColor = colors[player];
+    indicator.firstElementChild.style.backgroundColor = colors[player ^ 1]; // var bitwise-XOR 1 toggles var between 0 and 1
 });
 
 
-socket.on('refresh indicator', data => {
-    const outcome = data['outcome'], whose_turn = data['whose_turn'];
-
-    if (outcome == null) {
-        indicator.firstElementChild.style.backgroundColor = player_colors[whose_turn];
-    }
-    else {
-        end_sound.play();
-        indicator.innerHTML = ((outcome == 'draw') ? 'Draw' : `${player_names[outcome]} wins`); 
-        indicator.classList.add('outcome');
-    }
-});
-
-socket.on('refresh seats', usernames => {
-    for (let i = 0; i < 2; i++) {
-        if (usernames[i] != null) {
-            seats[i].innerHTML = usernames[i];
-        }
-    }
+socket.on('end game', outcome => {
+    end_sound.play();
+    indicator.innerHTML = (outcome == 'draw' ? 'Draw' : 'win'); // FIX
+    indicator.classList.add('outcome');
 });
