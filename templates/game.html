@@ -24,41 +24,26 @@
         </div>
         <div id="board_container">
             <div id="board">
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
-                <div class="column">
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                    <div class="space"></div><div class="space"></div><div class="space"></div>
-                </div>
+                {% for column in range(7) %}
+                    <div class="column">
+                        {% for space in range(6) %}
+                            <div class="space"></div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
             <div id="indicator">
                 <div class="space" style="border-width: 0.5vh;"></div>
             </div>
         </div>
         <div id="chat_container">
-            <div id="messages"></div>
+            <div id="messages">
+                {% for message in messages %}
+                    <span style="font-weight: bold;">{{ message["sender"] }}</span> <!--add class instead of inline styling-->
+                    <span>{{ message["content"] }}</span>
+                    <br>
+                {% endfor %}
+            </div>
             <form id="chat_form">
                 <input id="message_box" autocomplete="off"></input>
             </form>

@@ -48,7 +48,6 @@ def connect_to_game():
 @socketio.on("connect to chat")
 def connect_to_chat():
     join_room(request.args.get("game_id"))
-    socketio.emit("refresh chat", games[request.args.get("game_id")]["messages"], room=request.sid) # obsolete
 
 
 @socketio.on("new game")
