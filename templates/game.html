@@ -2,6 +2,8 @@
 
 <html>
     <head>
+        {% set game_name, board, messages = game["game_name"], game["board"], game["messages"] %} 
+
         <title>{{ game_name }}</title>
         
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
@@ -29,7 +31,7 @@
                 {% for column in range(7) %}
                     <div class="column">
                         {% for space in range(6) %}
-                        {% set color = colors[board[column][space]] %}
+                            {% set color = colors[board[column][space]] %}
                             <div class="space" style="background-color: {{ color }};"></div>
                         {% endfor %}
                     </div>

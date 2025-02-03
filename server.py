@@ -18,20 +18,15 @@ def assign_player_id():
 
 @app.route("/")
 def serve_lobby():
-    game_list = [{ "id": game_id, "name": games[game_id]["name"] } for game_id in games]
-    return render_template("lobby.html", games=game_list)
+    return render_template("lobby.html", games=games)
 
 
 @app.route("/play")
 def serve_game(): 
-    game_id = request.args.get("game_id")
-
-    try: 
-        game = games[game_id]
+    try:
+        return render_template("game.html", game=games[request.args.get("game_id")])
     except KeyError:
         return "Invalid game ID", 404
-    
-    return render_template("game.html", game_name=game["name"], board=game["board"], messages=game["messages"])
 
 
 @socketio.on("connect to game")
