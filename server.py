@@ -31,7 +31,7 @@ def serve_game():
     except KeyError:
         return "Invalid game ID", 404
     
-    return render_template("game.html", game_name=game["name"], messages=game["messages"])
+    return render_template("game.html", game_name=game["name"], board=game["board"], messages=game["messages"])
 
 
 @socketio.on("connect to game")
@@ -40,7 +40,6 @@ def connect_to_game():
     game = games[game_id]
     join_room(game_id)  
 
-    socketio.emit("refresh board", game["board"], room=request.sid)
     socketio.emit("refresh indicator", { "outcome": game["outcome"], "whose_turn": game["whose_turn"] }, room=request.sid)
     socketio.emit("refresh seats", game["usernames"], room=request.sid) 
 

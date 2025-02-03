@@ -35,6 +35,14 @@ body {
     margin: 1vh;
 }
 
+.player_0 {
+    background-color: red;
+}
+
+.player_1 {
+    background: yellow;
+}
+
 #indicator {
     margin-top: 6vh;
 }

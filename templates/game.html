@@ -10,6 +10,8 @@
         <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
         <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>
+
+        {% set colors = ['red', 'yellow'] %} 
     </head>
 
     <body>
@@ -27,7 +29,8 @@
                 {% for column in range(7) %}
                     <div class="column">
                         {% for space in range(6) %}
-                            <div class="space"></div>
+                        {% set color = colors[board[column][space]] %}
+                            <div class="space" style="background-color: {{ color }};"></div>
                         {% endfor %}
                     </div>
                 {% endfor %}

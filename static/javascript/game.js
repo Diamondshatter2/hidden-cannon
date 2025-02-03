@@ -36,14 +36,6 @@ socket.on('make move', move_data => {
     space.style.backgroundColor = player_colors[player];
 });
 
-socket.on('refresh board', board => {
-    for (let column_index = 0; column_index < 7; column_index++) {
-        for (let row_index = 0; row_index < 6; row_index++) {
-            const space = columns[column_index].children[row_index], player = board[column_index][row_index];
-            space.style.backgroundColor = player_colors[player];
-        }
-    }
-});
 
 socket.on('refresh indicator', data => {
     const outcome = data['outcome'], whose_turn = data['whose_turn'];
