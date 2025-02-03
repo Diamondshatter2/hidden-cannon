@@ -18,21 +18,20 @@ def assign_player_id():
 
 @app.route("/")
 def serve_lobby():
-    return render_template("lobby.html")
+    game_list = [{ "id": game_id, "name": games[game_id]["name"] } for game_id in games]
+    return render_template("lobby.html", games=game_list)
 
 
 @app.route("/play")
 def serve_game(): 
     game_id = request.args.get("game_id")
-    if game_id not in games:
+
+    try: 
+        game = games[game_id]
+    except KeyError:
         return "Invalid game ID", 404
     
-    return render_template("game.html", game_name=games[game_id]["name"])
-
-
-@socketio.on("connect to lobby")
-def refresh_games_list():
-    socketio.emit("refresh games list", [{ "id": game_id, "name": games[game_id]["name"] } for game_id in games], room=request.sid)
+    return render_template("game.html", game_name=game["name"], messages=game["messages"])
 
 
 @socketio.on("connect to game")
@@ -49,7 +48,7 @@ def connect_to_game():
 @socketio.on("connect to chat")
 def connect_to_chat():
     join_room(request.args.get("game_id"))
-    socketio.emit("refresh chat", games[request.args.get("game_id")]["messages"], room=request.sid)
+    socketio.emit("refresh chat", games[request.args.get("game_id")]["messages"], room=request.sid) # obsolete
 
 
 @socketio.on("new game")

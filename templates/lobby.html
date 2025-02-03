@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Welcome</title>
+        <title>Play Connect 4</title>
 
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/lobby.css') }}">
@@ -14,7 +14,11 @@
     <body>
         <div id="games_container">
             <div class="header">Join a game</div>
-            <div id="games"></div>
+            <div id="games">
+                {% for game in games %}
+                    <a href="/play?game_id={{ game['id'] }}" class="game">{{ game["name"] }}</a>
+                {% endfor %}
+            </div>
         </div>
         <div id="new_game_container">
             <div class="header">Create a game</div>
