@@ -2,8 +2,6 @@ let chat, message_box;
 const chat_socket = io.connect({ query: { game_id } });
 
 
-chat_socket.emit('connect to chat');
-
 document.addEventListener('DOMContentLoaded', () => {
     chat = document.getElementById('messages'), message_box = document.getElementById('message_box');
     chat.scrollTop = chat.scrollHeight; // idk
