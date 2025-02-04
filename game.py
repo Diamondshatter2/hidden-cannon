@@ -23,10 +23,10 @@ class Game:
         
         self.board[column][row] = self.whose_turn
         self.outcome = self.determine_outcome((column, row))
-        move = {"column": column, "row": row, "player": self.whose_turn}
+        move_data = {"column": column, "row": row, "player": self.whose_turn}
         self.whose_turn = int(not self.whose_turn)
 
-        return move
+        return move_data
 
     
     def determine_outcome(self, space):
