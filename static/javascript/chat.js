@@ -16,6 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 chat_socket.on('update chat', message => {
     const sender = document.createElement('span'), content = document.createElement('span'); 
     sender.innerText = message['sender'], content.innerText = message['content']; 
-    sender.style.fontWeight = 'bold';
-    chat.appendChild(sender), chat.appendChild(content), chat.appendChild(document.createElement('br'));
+    sender.classList.add('sender'), content.classList.add('message');
+    chat.appendChild(sender), chat.appendChild(content);
 });

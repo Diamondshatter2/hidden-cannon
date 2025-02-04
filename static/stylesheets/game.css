@@ -35,14 +35,6 @@ body {
     margin: 1vh;
 }
 
-.player_0 {
-    background-color: red;
-}
-
-.player_1 {
-    background: yellow;
-}
-
 #indicator {
     margin-top: 6vh;
 }
@@ -67,4 +59,12 @@ body {
 
 #message_box {
     width: 100%; 
+}
+
+.sender {
+    font-weight: bold;
+}
+
+.message {
+    margin-bottom: 2rem;
 }

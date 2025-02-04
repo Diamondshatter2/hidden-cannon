@@ -15,24 +15,20 @@
     </head>
 
     <body>
-        <div id="seats"> <!--Todo: refactor this to avoid duplication-->
-            <div>
-                Player 1: <span class="seat">
-                {% if game["usernames"][0] is none %}
-                    <button class="seat_button">Take seat</button></span>
-                {% else %}
-                    {{ game["usernames"][0] }}
-                {% endif %}
-            </div>
-            <br><br><br>
-            <div>
-                Player 2: <span class="seat">
-                {% if game["usernames"][1] is none %}
-                    <button class="seat_button">Take seat</button></span>
-                {% else %}
-                    {{ game["usernames"][1] }}
-                {% endif %}
-            </div>
+        <div id="seats"> 
+            {% for i in range(2) %}
+                <div>
+                    Player {{ i + 1 }}: 
+                    <span class="seat">
+                        {% if game["usernames"][i] is none %}
+                            <button class="seat_button">Take seat</button>
+                        {% else %}
+                            {{ game["usernames"][i] }}
+                        {% endif %}
+                    </span>
+                </div>
+                <br><br><br>
+            {% endfor %}
         </div>
         <div id="board_container">
             <div id="board">
@@ -58,9 +54,8 @@
         <div id="chat_container">
             <div id="messages">
                 {% for message in game["messages"] %}
-                    <span style="font-weight: bold;">{{ message["sender"] }}</span> <!--add class instead of inline styling-->
-                    <span>{{ message["content"] }}</span>
-                    <br>
+                    <span class="sender">{{ message["sender"] }}</span> 
+                    <span class="message">{{ message["content"] }}</span>
                 {% endfor %}
             </div>
             <form id="chat_form">
