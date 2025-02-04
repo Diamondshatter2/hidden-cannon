@@ -10,8 +10,6 @@
         <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
         <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
         <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>
-
-        {% set colors = ['red', 'yellow'] %} 
     </head>
 
     <body>
@@ -36,7 +34,7 @@
                 {% for column in range(7) %}
                     <div class="column">
                         {% for space in range(6) %}
-                            {% set color = colors[game.board[column][space]] %}
+                            {% set color = game.colors[game.board[column][space]] %}
                             <div class="space" style="background-color: {{ color }};"></div>
                         {% endfor %}
                     </div>
@@ -44,12 +42,12 @@
             </div>
             <div id="indicator">
                 {% if game.outcome is none %}
-                    {% set color = colors[game.whose_turn] %}
+                    {% set color = game.colors[game.whose_turn] %}
                     <div class="space" style="border-width: 0.5vh; background-color: {{ color }};"></div>
                 {% elif game.outcom == "draw" %}
                     <div class="outcome">draw</div>
                 {% else %}
-                    <div class="outcome">{{ colors[game.outcome] }} wins</div>
+                    <div class="outcome">{{ game.colors[game.outcome] }} wins</div>
                 {% endif %}
             </div>
         </div>

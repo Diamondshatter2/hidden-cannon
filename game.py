@@ -1,4 +1,5 @@
 class Game:
+    colors = ['red', 'yellow']
     spaces = {(column, row) for column in range(7) for row in range(6)}
     vectors = ((1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1))
 
