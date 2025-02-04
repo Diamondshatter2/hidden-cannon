@@ -53,6 +53,7 @@
             </div>
         </div>
         <div id="right_content">
+            <div id="chat_header">Chat</div>
             <div id="messages">
                 {% for message in game.messages %}
                     <span class="sender">{{ message["sender"] }}</span> 
@@ -60,7 +61,7 @@
                 {% endfor %}
             </div>
             <form id="chat_form">
-                <input id="message_box" autocomplete="off"></input>
+                <input id="message_box" autocomplete="off" placeholder="Type your message..."></input>
             </form>
         </div>
     </body>
