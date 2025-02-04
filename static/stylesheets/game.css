@@ -36,6 +36,14 @@ body {
     color: rgb(188, 188, 188);
 }
 
+.seat_button {
+    background-color: rgb(216, 216, 216);
+}
+
+.seat_button:hover {
+    background-color: rgba(216, 216, 216, 0.5);
+}
+
 #middle_content {
     display: flex;
     flex-direction: column;
