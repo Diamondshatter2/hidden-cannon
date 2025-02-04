@@ -4,9 +4,22 @@ body {
     align-items: center;
 }
 
+#left_content {
+    height: 90vh;
+}
+
+#lobby_link {
+    text-decoration: none;
+    outline: 1px solid black;
+    font-size: 3vh;
+    color: black;
+    padding: 1vh;
+}
+
 #game_name {
     font-weight: bold;
     margin-bottom: 5vh;
+    margin-top: 30vh;
 }
 
 #middle_content {
