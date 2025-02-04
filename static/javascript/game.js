@@ -1,4 +1,4 @@
-const player_names = ['Red', 'Yellow'], colors = ['red', 'yellow'];
+const colors = ['red', 'yellow'];
 let columns, seats, seat_buttons, indicator;
 
 const drop_sounds = [1, 2, 3, 4, 5].map(number => new Audio(`/static/audio/disc-drop-${number}.mp3`));
@@ -40,6 +40,6 @@ socket.on('make move', move_data => {
 
 socket.on('end game', outcome => {
     end_sound.play();
-    indicator.innerHTML = (outcome == 'draw' ? 'Draw' : 'win'); // FIX
+    indicator.innerHTML = (outcome == 'draw' ? 'Draw' : `${colors[outcome]} wins`); 
     indicator.classList.add('outcome');
 });

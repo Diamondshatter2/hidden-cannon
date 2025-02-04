@@ -16,6 +16,7 @@
 
     <body>
         <div id="seats"> 
+            <div id="game_name">{{ game["name"] }}</div>
             {% for i in range(2) %}
                 <div>
                     Player {{ i + 1 }}: 
@@ -45,9 +46,10 @@
                 {% if game["outcome"] is none %}
                     {% set color = colors[game["whose_turn"]] %}
                     <div class="space" style="border-width: 0.5vh; background-color: {{ color }};"></div>
+                {% elif game["outcome"] == "draw" %}
+                    <div class="outcome">draw</div>
                 {% else %}
-                    {% set outcome = "Draw" if game["outcome"] == "draw" else "win" %} <!--INCOMPLETE REFACTORING-->
-                    <div class="outcome">{{ outcome }}</div>
+                    <div class="outcome">{{ colors[game["outcome"]] }} wins</div>
                 {% endif %}
             </div>
         </div>
