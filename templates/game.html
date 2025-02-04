@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>{{ game["name"] }}</title>
+        <title>{{ game.name }}</title>
         
         <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/game.css') }}">
@@ -16,15 +16,15 @@
 
     <body>
         <div id="seats"> 
-            <div id="game_name">{{ game["name"] }}</div>
+            <div id="game_name">{{ game.name }}</div>
             {% for i in range(2) %}
                 <div>
                     Player {{ i + 1 }}: 
                     <span class="seat">
-                        {% if game["usernames"][i] is none %}
+                        {% if game.usernames[i] is none %}
                             <button class="seat_button">Take seat</button>
                         {% else %}
-                            {{ game["usernames"][i] }}
+                            {{ game.usernames[i] }}
                         {% endif %}
                     </span>
                 </div>
@@ -36,26 +36,26 @@
                 {% for column in range(7) %}
                     <div class="column">
                         {% for space in range(6) %}
-                            {% set color = colors[game["board"][column][space]] %}
+                            {% set color = colors[game.board[column][space]] %}
                             <div class="space" style="background-color: {{ color }};"></div>
                         {% endfor %}
                     </div>
                 {% endfor %}
             </div>
             <div id="indicator">
-                {% if game["outcome"] is none %}
-                    {% set color = colors[game["whose_turn"]] %}
+                {% if game.outcome is none %}
+                    {% set color = colors[game.whose_turn] %}
                     <div class="space" style="border-width: 0.5vh; background-color: {{ color }};"></div>
-                {% elif game["outcome"] == "draw" %}
+                {% elif game.outcom == "draw" %}
                     <div class="outcome">draw</div>
                 {% else %}
-                    <div class="outcome">{{ colors[game["outcome"]] }} wins</div>
+                    <div class="outcome">{{ colors[game.outcome] }} wins</div>
                 {% endif %}
             </div>
         </div>
         <div id="chat_container">
             <div id="messages">
-                {% for message in game["messages"] %}
+                {% for message in game.messages %}
                     <span class="sender">{{ message["sender"] }}</span> 
                     <span class="message">{{ message["content"] }}</span>
                 {% endfor %}

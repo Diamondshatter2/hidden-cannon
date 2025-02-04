@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex
-from game import outcome
+from game import Game, outcome
 
 app = Flask(__name__)
 app.secret_key = token_hex(32) 
@@ -43,16 +43,7 @@ def create_game(game_name):
     if not game_name:
         game_name = f"Game by {session['username']}"
 
-    games[game_id] = {
-        "name": game_name,
-        "creator": session["username"],
-        "players": [None, None],
-        "usernames": [None, None],
-        "messages": [],
-        "board": [[None for row in range(6)] for column in range(7)],
-        "whose_turn": 0,
-        "outcome": None
-    }
+    games[game_id] = Game(game_name, session['username'])
 
     socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
@@ -62,9 +53,9 @@ def assign_seat(seat_number):
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    if game["players"][seat_number] is None:
-        game["players"][seat_number] = session["player_id"]
-        game["usernames"][seat_number] = session["username"]
+    if game.players[seat_number] is None:
+        game.players[seat_number] = session["player_id"]
+        game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
 
@@ -76,37 +67,37 @@ def handle_move_request(column):
         return
 
     game = games[game_id] 
-    if game["outcome"] is not None:
+    if game.outcome is not None:
         return
     
-    whose_turn = game["whose_turn"]
-    if game["players"][whose_turn] != session["player_id"]:
+
+    if game.players[game.whose_turn] != session["player_id"]:
         return
 
     if not 0 <= column < 7:
         return
 
-    row = sum(space is not None for space in game["board"][column])
+    row = sum(space is not None for space in game.board[column])
     if row >= 6:
         return
     
-    move_data = { "column": column, "row": row, "player": whose_turn }
+    move_data = { "column": column, "row": row, "player": game.whose_turn }
 
-    game["board"][column][row] = whose_turn
-    game["outcome"] = outcome(game["board"], (column, row))
-    game["whose_turn"] = int(not whose_turn)
+    game.board[column][row] = game.whose_turn
+    game.outcome = outcome(game.board, (column, row))
+    game.whose_turn = int(not game.whose_turn)
 
     socketio.emit("make move", move_data, room=game_id)
 
-    if game["outcome"] is not None:
-        socketio.emit("end game", game["outcome"], room=game_id)
+    if game.outcome is not None:
+        socketio.emit("end game", game.outcome, room=game_id)
 
 
 @socketio.on("submit message")
 def send_message(message_content):
     game_id = request.args.get("game_id")
     message = { "sender": session["username"], "content": message_content }
-    games[game_id]["messages"].append(message)
+    games[game_id].messages.append(message)
     socketio.emit("update chat", message, room=game_id)
     
 
