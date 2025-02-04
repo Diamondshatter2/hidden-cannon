@@ -66,26 +66,15 @@ def handle_move_request(column):
     if game_id not in games:
         return
 
-    game = games[game_id] 
-    if game.outcome is not None:
-        return
-    
-
+    game = games[game_id]
     if game.players[game.whose_turn] != session["player_id"]:
         return
-
-    if not 0 <= column < 7:
-        return
-
-    row = sum(space is not None for space in game.board[column])
-    if row >= 6:
-        return
     
-    move_data = { "column": column, "row": row, "player": game.whose_turn }
+    move = game.make_move(column)
+    if not move:
+        return
 
-    game.make_move(column, row)
-
-    socketio.emit("make move", move_data, room=game_id)
+    socketio.emit("make move", move, room=game_id)
 
     if game.outcome is not None:
         socketio.emit("end game", game.outcome, room=game_id)

@@ -13,10 +13,20 @@ class Game:
         self.outcome = None
 
     
-    def make_move(self, column, row):
+    def make_move(self, column):
+        if self.outcome is not None or not 0 <= column < 7:
+            return 
+        
+        row = sum(space is not None for space in self.board[column])
+        if row >= 6:
+            return 
+        
         self.board[column][row] = self.whose_turn
         self.outcome = self.determine_outcome((column, row))
+        move = {"column": column, "row": row, "player": self.whose_turn}
         self.whose_turn = int(not self.whose_turn)
+
+        return move
 
     
     def determine_outcome(self, space):
@@ -36,27 +46,3 @@ class Game:
             return 0
         
         return 1 + self.consecutive_tokens(next_space, direction)
-
-
-
-
-
-'''
-def outcome(board, space):
-    for direction in range(4):
-        if consecutive_tokens(board, space, direction) + consecutive_tokens(board, space, direction + 4) >= 3:
-            return board[space[0]][space[1]]
-        
-    if all(all(space != None for space in column) for column in board):
-        return "draw"
-
-
-def consecutive_tokens(board, space, direction):
-    vector = VECTORS[direction]
-    next_space = space[0] + vector[0], space[1] + vector[1]
-
-    if next_space not in SPACES or board[next_space[0]][next_space[1]] != board[space[0]][space[1]]:
-        return 0
-    
-    return 1 + consecutive_tokens(board, next_space, direction)
-'''
