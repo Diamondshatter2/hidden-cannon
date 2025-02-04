@@ -9,7 +9,7 @@ body {
     margin-bottom: 5vh;
 }
 
-#board_container {
+#middle_content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,6 +64,7 @@ body {
 
 #message_box {
     width: 100%; 
+    box-sizing: border-box;
 }
 
 .sender {

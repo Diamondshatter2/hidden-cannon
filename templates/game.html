@@ -13,7 +13,7 @@
     </head>
 
     <body>
-        <div id="seats"> 
+        <div id="left_content"> 
             <div id="game_name">{{ game.name }}</div>
             {% for i in range(2) %}
                 <div>
@@ -29,7 +29,7 @@
                 <br><br><br>
             {% endfor %}
         </div>
-        <div id="board_container">
+        <div id="middle_content">
             <div id="board">
                 {% for column in range(7) %}
                     <div class="column">
@@ -51,7 +51,7 @@
                 {% endif %}
             </div>
         </div>
-        <div id="chat_container">
+        <div id="right_content">
             <div id="messages">
                 {% for message in game.messages %}
                     <span class="sender">{{ message["sender"] }}</span> 
