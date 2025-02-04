@@ -1,6 +1,6 @@
 class Game:
-    SPACES = {(column, row) for column in range(7) for row in range(6)}
-    VECTORS = ((1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1))
+    spaces = {(column, row) for column in range(7) for row in range(6)}
+    vectors = ((1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1))
 
     def __init__(self, name, creator):
         self.name = name
@@ -39,10 +39,10 @@ class Game:
         
         
     def consecutive_tokens(self, space, direction):
-        vector = Game.VECTORS[direction]
+        vector = Game.vectors[direction]
         next_space = space[0] + vector[0], space[1] + vector[1]
 
-        if next_space not in Game.SPACES or self.board[next_space[0]][next_space[1]] != self.board[space[0]][space[1]]:
+        if next_space not in Game.spaces or self.board[next_space[0]][next_space[1]] != self.board[space[0]][space[1]]:
             return 0
         
         return 1 + self.consecutive_tokens(next_space, direction)
