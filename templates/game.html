@@ -18,7 +18,7 @@
             <div id="game_name">{{ game.name }}</div>
             {% for i in range(2) %}
                 <div>
-                    Player {{ i + 1 }}: 
+                    <span class="seat_label">Player {{ i + 1 }}:</span>
                     <span class="seat">
                         {% if game.usernames[i] is none %}
                             <button class="seat_button">Take seat</button>
@@ -44,7 +44,7 @@
             <div id="indicator">
                 {% if game.outcome is none %}
                     {% set color = game.colors[game.whose_turn] %}
-                    <div class="space" style="border-width: 0.5vh; background-color: {{ color }};"></div>
+                    <div class="space" style="background-color: {{ color }};"></div>
                 {% elif game.outcom == "draw" %}
                     <div class="outcome">draw</div>
                 {% else %}

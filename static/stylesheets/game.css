@@ -2,6 +2,7 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-color: rgb(23, 21, 19)
 }
 
 #left_content {
@@ -9,11 +10,17 @@ body {
 }
 
 #lobby_link {
+    margin-left: 3vh;
     text-decoration: none;
     outline: 1px solid black;
     font-size: 3vh;
     color: black;
     padding: 1vh;
+    background-color: rgb(216, 216, 216);
+}
+
+#lobby_link:hover {
+    background-color: rgba(216, 216, 216, 0.5);
 }
 
 #game_name {
@@ -21,6 +28,12 @@ body {
     font-weight: bold;
     margin-bottom: 10vh;
     margin-top: 25vh;
+    text-align: center;
+    color: rgb(216, 216, 216);
+}
+
+.seat_label, .seat {
+    color: rgb(188, 188, 188);
 }
 
 #middle_content {
@@ -63,7 +76,7 @@ body {
     border: 0.5vh solid black;
     font-size: 5vh;
     font-family: 'Courier New', Courier, monospace;
-    background-color: rgb(154, 154, 154);
+    background-color: rgb(216, 216, 216);
 }
 
 #chat_header {
@@ -71,8 +84,10 @@ body {
     text-align: center;
     font-weight: bold;
     font-size: 3vh;
-    border: 1px solid black;
     box-sizing: border-box;
+    background-color: rgb(38, 36, 33);
+    color: rgb(188, 188, 188);
+    border: 2px solid rgb(188, 188, 188);
 }
 
 #messages {
@@ -80,23 +95,27 @@ body {
     flex-direction: column;
     height: 80vh;
     width: 20vw;
-    border: 1px solid black;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 2vh;
     box-sizing: border-box;
+    background-color: rgb(38, 36, 33)
 }
 
 #message_box {
     width: 100%; 
     box-sizing: border-box;
+    background-color: rgb(38, 36, 33);
+    color: rgb(188, 188, 188);
 }
 
 .sender {
     font-weight: bold;
+    color: rgb(188, 188, 188);
 }
 
 .message {
     word-wrap: break-word;
     margin-bottom: 2rem;
+    color: rgb(188, 188, 188);
 }
