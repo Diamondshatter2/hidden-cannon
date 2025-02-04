@@ -1,7 +1,7 @@
 from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex
-from game import Game, outcome
+from game import Game
 
 app = Flask(__name__)
 app.secret_key = token_hex(32) 
@@ -83,9 +83,7 @@ def handle_move_request(column):
     
     move_data = { "column": column, "row": row, "player": game.whose_turn }
 
-    game.board[column][row] = game.whose_turn
-    game.outcome = outcome(game.board, (column, row))
-    game.whose_turn = int(not game.whose_turn)
+    game.make_move(column, row)
 
     socketio.emit("make move", move_data, room=game_id)
 
