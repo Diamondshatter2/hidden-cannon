@@ -9,6 +9,12 @@ body {
     height: 90vh;
 }
 
+#middle_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #lobby_link {
     margin-left: 3vh;
     text-decoration: none;
@@ -44,37 +50,6 @@ body {
     background-color: rgba(216, 216, 216, 0.5);
 }
 
-#middle_content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#board {
-    display: flex;
-    border: 2vh solid black;
-    background-color: blue;
-}
-
-.column {
-    display: flex;
-    flex-direction: column-reverse;
-    margin: 1vh;
-}
-
-.column:hover {
-    background-color: rgba(0,0,0,0.2);
-}
-
-.space {
-    width: 8vh;
-    height: 8vh;
-    border: 1vh solid black;
-    border-radius: 50%;
-    background-color: white;
-    margin: 1vh;
-}
-
 #indicator {
     margin-top: 6vh;
 }
@@ -85,48 +60,4 @@ body {
     font-size: 5vh;
     font-family: 'Courier New', Courier, monospace;
     background-color: rgb(216, 216, 216);
-}
-
-#chat_header {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    font-size: 3vh;
-    box-sizing: border-box;
-    background-color: rgb(38, 36, 33);
-    color: rgb(188, 188, 188);
-    border-bottom: 1px solid rgb(188, 188, 188);
-    padding: 1%;
-}
-
-#messages {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
-    width: 20vw;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 2vh;
-    box-sizing: border-box;
-    background-color: rgb(38, 36, 33)
-}
-
-#message_box {
-    width: 100%; 
-    box-sizing: border-box;
-    background-color: rgb(38, 36, 33);
-    color: rgb(188, 188, 188);
-    border: none;
-    border-top: 1px solid rgb(188, 188, 188);
-}
-
-.sender {
-    font-weight: bold;
-    color: rgb(188, 188, 188);
-}
-
-.message {
-    word-wrap: break-word;
-    margin-bottom: 2rem;
-    color: rgb(188, 188, 188);
 }
