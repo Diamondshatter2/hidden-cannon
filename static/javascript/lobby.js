@@ -1,20 +1,26 @@
-let popup_overlay;
+let new_game_overlay;
 const socket = io.connect();
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    popup_overlay = document.getElementById('new_game_popup_overlay');
+    new_game_overlay = document.getElementById('new_game_popup_overlay');
     const name = document.getElementById('game_name');
 
     document.getElementById('new_game_button').addEventListener('click', () => {
-        popup_overlay.style.display = 'flex';
+        new_game_overlay.style.display = 'flex';
     });
+
+    document.addEventListener('click', event => {
+        if (event.target === new_game_overlay) {
+            new_game_overlay.style.display = "none";
+        }
+    });    
 
     document.getElementById('new_game_form').addEventListener('submit', event => { 
         event.preventDefault();
         socket.emit('new game', name.value);
         name.value = '';
-        popup_overlay.style.display = 'none';
+        new_game_overlay.style.display = 'none';
     });
 });
 
