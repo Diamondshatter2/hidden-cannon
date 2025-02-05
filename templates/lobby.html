@@ -23,8 +23,12 @@
         </div>
         <div id="new_game_popup_overlay">
             <form id="new_game_form">
+                <div id="new_game_header">New game</div>
                 <input id="game_name" autocomplete="off" placeholder="Name (eg 'My Game')"></input>
-                <button id="new_game_submit">Create game</button>
+                <div id="new_game_options">
+                    <button id="new_game_submit">Create game</button>
+                    <button id="cancel_new_game" type="button">Cancel</button>
+                </div>
             </form>
         </div>
         <div id="info">
@@ -32,7 +36,7 @@
             <p>
                 Hi, my name is Alistair Folster. 
                 I developed this using Flask and Flask-SocketIO on the backend, 
-                and plain old CSS/JS on the frontend - no React, no frameworks.
+                and plain old JS/CSS on the frontend - no React, no frameworks.
             </p>
             <p>
                 The seat mechanic, which easily allows two people on the same computer 
