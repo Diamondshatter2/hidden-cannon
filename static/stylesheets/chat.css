@@ -1,0 +1,44 @@
+
+#chat_header {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3vh;
+    box-sizing: border-box;
+    background-color: rgb(38, 36, 33);
+    color: rgb(188, 188, 188);
+    border-bottom: 1px solid rgb(188, 188, 188);
+    padding: 1%;
+}
+
+#messages {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 20vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2vh;
+    box-sizing: border-box;
+    background-color: rgb(38, 36, 33)
+}
+
+#message_box {
+    width: 100%; 
+    box-sizing: border-box;
+    background-color: rgb(38, 36, 33);
+    color: rgb(188, 188, 188);
+    border: none;
+    border-top: 1px solid rgb(188, 188, 188);
+}
+
+.sender {
+    font-weight: bold;
+    color: rgb(188, 188, 188);
+}
+
+.message {
+    word-wrap: break-word;
+    margin-bottom: 2rem;
+    color: rgb(188, 188, 188);
+}

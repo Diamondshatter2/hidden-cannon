@@ -1,0 +1,24 @@
+#board {
+    display: flex;
+    border: 2vh solid black;
+    background-color: blue;
+}
+
+.column {
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 1vh;
+}
+
+.column:hover {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.space {
+    width: 8vh;
+    height: 8vh;
+    border: 1vh solid black;
+    border-radius: 50%;
+    background-color: white;
+    margin: 1vh;
+}
