@@ -1,5 +1,5 @@
 const colors = ['red', 'yellow'];
-let columns, seats, seat_buttons, indicator;
+let columns, indicator;
 
 const drop_sounds = [1, 2, 3, 4, 5].map(number => new Audio(`/static/audio/disc-drop-${number}.mp3`));
 const end_sound = new Audio('static/audio/game-end.mp3');
@@ -10,19 +10,10 @@ const socket = io.connect({ query: { game_id } });
 
 document.addEventListener('DOMContentLoaded', () => {
     columns = Array.from(document.querySelectorAll('.column'));
-    seats = Array.from(document.querySelectorAll('.seat'));
-    seat_buttons = Array.from(document.querySelectorAll('.seat_button'));
     indicator = document.getElementById('indicator');
 
-    seat_buttons.forEach(button => button.addEventListener('click', request_seat));
     columns.forEach(column => column.addEventListener('click', request_move));
 });
-
-function request_seat() {
-    socket.emit('request seat', seats.indexOf(this.parentElement)); 
-}
-
-socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 
 function request_move() {
     socket.emit('request move', columns.indexOf(this));

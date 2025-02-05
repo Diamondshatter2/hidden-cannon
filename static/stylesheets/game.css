@@ -9,6 +9,12 @@ body {
     height: 90vh;
 }
 
+#middle_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #lobby_link {
     margin-left: 3vh;
     text-decoration: none;
@@ -43,13 +49,6 @@ body {
 .seat_button:hover {
     background-color: rgba(216, 216, 216, 0.5);
 }
-
-#middle_content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 
 #indicator {
     margin-top: 6vh;
