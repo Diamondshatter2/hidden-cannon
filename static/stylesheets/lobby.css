@@ -85,15 +85,6 @@ body {
     flex-direction: column;
 }
 
-#game_name {
-    height: 8vh;
-    width: 25vw;
-    font-size: 4vh;
-    padding: 0;
-    box-sizing: border-box;
-    text-align: center;
-}
-
 #info {
     flex-grow: 1;
     padding: 5vh;
@@ -103,7 +94,7 @@ body {
 
 #new_game_popup_overlay {
     display: flex;
-    display: none;
+    /* display: none; */
     position: fixed;
     left: 0;
     top: 0;
@@ -117,4 +108,13 @@ body {
 
 #new_game_form {
     /**/
+}
+
+#game_name {
+    height: 8vh;
+    width: 25vw;
+    font-size: 4vh;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
 }
