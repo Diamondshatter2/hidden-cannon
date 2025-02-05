@@ -1,9 +1,20 @@
+let popup_overlay;
 const socket = io.connect();
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    popup_overlay = document.getElementById('new_game_popup_overlay');
+    const name = document.getElementById('game_name');
+
     document.getElementById('new_game_button').addEventListener('click', () => {
-        // menu pops up
+        popup_overlay.style.display = 'flex';
+    });
+
+    document.getElementById('new_game_form').addEventListener('submit', event => { 
+        event.preventDefault();
+        socket.emit('new game', name.value);
+        name.value = '';
+        popup_overlay.style.display = 'none';
     });
 });
 

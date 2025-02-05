@@ -93,8 +93,7 @@ body {
 }
 
 #new_game_popup_overlay {
-    display: flex;
-    /* display: none; */
+    display: none;
     position: fixed;
     left: 0;
     top: 0;
