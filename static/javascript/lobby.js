@@ -1,12 +1,9 @@
 const socket = io.connect();
 
-document.addEventListener('DOMContentLoaded', () => {
-    const name = document.getElementById('game_name');
 
-    document.getElementById('new_game_form').addEventListener('submit', event => { 
-        event.preventDefault();
-        socket.emit('new game', name.value);
-        name.value = '';
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('new_game_button').addEventListener('click', () => {
+        // menu pops up
     });
 });
 

@@ -1,6 +1,5 @@
 body {
     display: flex;
-    justify-content: space-between;
     background-color: rgb(23, 21, 19);
     margin: 0;
 }
@@ -92,5 +91,12 @@ body {
     font-size: 4vh;
     padding: 0;
     box-sizing: border-box;
+    text-align: center;
+}
+
+#info {
+    flex-grow: 1;
+    padding: 5vh;
+    color: rgb(188, 188, 188);
     text-align: center;
 }
