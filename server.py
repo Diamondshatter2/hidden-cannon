@@ -10,21 +10,26 @@ games = {}
 
 
 @app.before_request
-def assign_player_id():
+def assign_player_id_and_username():
     if "player_id" not in session:
         session["player_id"] = str(generate_id())
         session["username"] = f"Guest_{str(generate_id())[:4]}"
 
+    else:
+        new_username = request.form.get("new_username")
+        if new_username is not None:
+            session["username"] = new_username
+
 
 @app.route("/")
 def serve_lobby():
-    return render_template("lobby.html", games=games)
+    return render_template("lobby.html", games=games, username=session["username"])
 
 
 @app.route("/play")
 def serve_game(): 
     try:
-        return render_template("game.html", game=games[request.args.get("game_id")])
+        return render_template("game.html", game=games[request.args.get("game_id")], username=session["username"])
     except KeyError:
         return "Invalid game ID", 404
 
