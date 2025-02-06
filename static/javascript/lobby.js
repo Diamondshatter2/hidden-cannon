@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', event => {
-        if (event.target === new_game_overlay) {
+        if (event.target === new_game_overlay || event.target === document.getElementById('cancel_new_game')) {
             name.value = '';
             new_game_overlay.style.display = 'none';
         }
@@ -23,11 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
         name.value = '';
         new_game_overlay.style.display = 'none';
     });
-
-    document.getElementById('cancel_new_game').addEventListener('click', () => {
-        name.value = '';
-        new_game_overlay.style.display = 'none';
-    }) 
 });
 
 socket.on('add game to list', game => {
