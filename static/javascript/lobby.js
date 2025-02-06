@@ -1,9 +1,8 @@
-let new_game_overlay;
 const socket = io.connect();
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    new_game_overlay = document.getElementById('new_game_popup_overlay');
+    const new_game_overlay = document.getElementById('new_game_popup_overlay');
     const name = document.getElementById('game_name');
 
     document.getElementById('new_game_button').addEventListener('click', () => {
