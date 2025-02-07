@@ -13,8 +13,13 @@
         {% block body %}{% endblock %}
 
         <div id="username">
-            Your username: {{ username }}
-            <button>Change</button>
+            <div>
+                Your username: {{ username }}
+                <button>Change</button>
+            </div>
+            <form id="username_form" method="post" autocomplete="off">
+                <input name="new_username" placeholder="New username"></input>
+            </form>
         </div>
     </body>
 </html>

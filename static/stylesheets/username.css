@@ -15,3 +15,7 @@
 #username button:hover {
     background-color: rgba(216, 216, 216, 0.5);
 }
+
+#username_form {
+    display: none;
+}
