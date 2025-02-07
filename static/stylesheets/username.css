@@ -1,3 +1,17 @@
 #username {
     color: rgb(188, 188, 188);
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1vh;
+    display: flex;
+}
+
+#username button {
+    margin-left: 2vh;
+    background-color: rgb(216, 216, 216);;
+}
+
+#username button:hover {
+    background-color: rgba(216, 216, 216, 0.5);
 }
