@@ -1,5 +1,3 @@
-const username_socket = io.connect();
-
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#username button').addEventListener('click', function() {
         this.parentElement.style.display = 'none';

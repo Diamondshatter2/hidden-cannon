@@ -17,7 +17,7 @@ def assign_player_id_and_username():
     else:
         new_username = request.form.get("new_username")
         if new_username is not None:
-            session["username"] = new_username # Some checks to prevent duplication would be good
+            session["username"] = new_username
 
 
 @app.route("/", methods=['GET', 'POST']) 
