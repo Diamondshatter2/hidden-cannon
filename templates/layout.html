@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/username.css') }}"></link>
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        {% block body %}{% endblock %}
+
+        <div id="username">
+            Your username: {{ username }}
+        </div>
+    </body>
+</html>

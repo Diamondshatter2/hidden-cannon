@@ -1,71 +1,69 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<html>
-    <head>
-        <title>{{ game.name }}</title>
-        
-        <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/game.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/board.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/chat.css') }}">
+{% block head %}
+    <title>{{ game.name }}</title>
+    
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/game.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/board.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/chat.css') }}">
 
-        <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-        <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
-        <script src="{{ url_for('static', filename='javascript/seats.js') }}" type="text/javascript"></script>
-        <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>
-    </head>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='javascript/seats.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>
+{% endblock %}
 
-    <body>
-        <div id="left_content"> 
-            <a id="lobby_link" href="/">Back to lobby</a>
-            <div id="game_name">{{ game.name }}</div>
-            {% for i in range(2) %}
-                <div>
-                    <span class="seat_label">Player {{ i + 1 }}:</span>
-                    <span class="seat">
-                        {% if game.usernames[i] is none %}
-                            <button class="seat_button">Take seat</button>
-                        {% else %}
-                            {{ game.usernames[i] }}
-                        {% endif %}
-                    </span>
+{% block body %}
+    <div id="left_content"> 
+        <a id="lobby_link" href="/">Back to lobby</a>
+        <div id="game_name">{{ game.name }}</div>
+        {% for i in range(2) %}
+            <div>
+                <span class="seat_label">Player {{ i + 1 }}:</span>
+                <span class="seat">
+                    {% if game.usernames[i] is none %}
+                        <button class="seat_button">Take seat</button>
+                    {% else %}
+                        {{ game.usernames[i] }}
+                    {% endif %}
+                </span>
+            </div>
+            <br><br><br>
+        {% endfor %}
+    </div>
+    <div id="middle_content">
+        <div id="board">
+            {% for column in range(7) %}
+                <div class="column">
+                    {% for space in range(6) %}
+                        {% set color = game.colors[game.board[column][space]] %}
+                        <div class="space" style="background-color: {{ color }};"></div>
+                    {% endfor %}
                 </div>
-                <br><br><br>
             {% endfor %}
         </div>
-        <div id="middle_content">
-            <div id="board">
-                {% for column in range(7) %}
-                    <div class="column">
-                        {% for space in range(6) %}
-                            {% set color = game.colors[game.board[column][space]] %}
-                            <div class="space" style="background-color: {{ color }};"></div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-            <div id="indicator">
-                {% if game.outcome is none %}
-                    {% set color = game.colors[game.whose_turn] %}
-                    <div class="space" style="background-color: {{ color }};"></div>
-                {% elif game.outcom == "draw" %}
-                    <div class="outcome">draw</div>
-                {% else %}
-                    <div class="outcome">{{ game.colors[game.outcome] }} wins</div>
-                {% endif %}
-            </div>
+        <div id="indicator">
+            {% if game.outcome is none %}
+                {% set color = game.colors[game.whose_turn] %}
+                <div class="space" style="background-color: {{ color }};"></div>
+            {% elif game.outcom == "draw" %}
+                <div class="outcome">draw</div>
+            {% else %}
+                <div class="outcome">{{ game.colors[game.outcome] }} wins</div>
+            {% endif %}
         </div>
-        <div id="right_content">
-            <div id="chat_header">Chat</div>
-            <div id="messages">
-                {% for message in game.messages %}
-                    <span class="sender">{{ message["sender"] }}</span> 
-                    <span class="message">{{ message["content"] }}</span>
-                {% endfor %}
-            </div>
-            <form id="chat_form">
-                <input id="message_box" autocomplete="off" placeholder="Type your message..."></input>
-            </form>
+    </div>
+    <div id="right_content">
+        <div id="chat_header">Chat</div>
+        <div id="messages">
+            {% for message in game.messages %}
+                <span class="sender">{{ message["sender"] }}</span> 
+                <span class="message">{{ message["content"] }}</span>
+            {% endfor %}
         </div>
-    </body>
-</html>
+        <form id="chat_form">
+            <input id="message_box" autocomplete="off" placeholder="Type your message..."></input>
+        </form>
+    </div>
+{% endblock %}
