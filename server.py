@@ -13,11 +13,12 @@ games = {}
 def assign_player_id_and_username():
     if "player_id" not in session:
         session["player_id"] = str(generate_id())
-        session["username"] = f"Guest_{str(generate_id())[:4]}"
+        session["identifier"] = f" ({str(generate_id())[:4]})"
+        session["username"] = "Guest" + session["identifier"] 
     else:
         new_username = request.form.get("new_username")
         if new_username and " " not in new_username:
-            session["username"] = new_username
+            session["username"] = new_username + session["identifier"] 
 
 
 @app.route("/", methods=['GET', 'POST']) 
