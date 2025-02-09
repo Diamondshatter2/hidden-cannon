@@ -44,7 +44,7 @@ def add_connection_to_room():
 def create_game(game_name):
     game_id = str(generate_id())
 
-    if not game_name:
+    if not game_name or set(game_name) == { " " }:
         game_name = f"Game by {session['username']}"
 
     games[game_id] = Game(game_name, session['username'])
