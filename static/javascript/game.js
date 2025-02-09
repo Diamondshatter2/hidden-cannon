@@ -1,4 +1,3 @@
-const colors = ['red', 'yellow'];
 let columns, indicator;
 
 const drop_sounds = [1, 2, 3, 4, 5].map(number => new Audio(`/static/audio/disc-drop-${number}.mp3`));
