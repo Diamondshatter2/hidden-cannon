@@ -86,10 +86,15 @@ body {
 }
 
 #info {
+    margin-top: 2.5vh;
     flex-grow: 1;
     padding: 5vh;
     color: rgb(188, 188, 188);
     text-align: center;
+}
+
+#info p {
+    margin-top: 1.7em;
 }
 
 #new_game_popup_overlay {
@@ -117,11 +122,23 @@ body {
 #new_game_submit {
     width: 70%;
     box-sizing: border-box;
+    background-color: maroon;
+    border: 1px solid black;
+}
+
+#new_game_submit:hover {
+    filter: brightness(0.8);
 }
 
 #cancel_new_game {
     flex-grow: 1;
     box-sizing: border-box;
+    background-color: rgb(72, 72, 72);
+    border: 1px solid black;
+}
+
+#cancel_new_game:hover {
+    background-color: rgb(72, 72, 72, 0.8);
 }
 
 #new_game_form {
