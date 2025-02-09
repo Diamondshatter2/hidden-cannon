@@ -16,7 +16,7 @@ def assign_player_id_and_username():
         session["username"] = f"Guest ({str(generate_id())[:4]})"
     else:
         new_username = request.form.get("new_username")
-        if new_username and " " not in new_username:
+        if new_username and len(new_username) < 20 and " " not in new_username:
             session["username"] = new_username + session["username"][-7:]
 
 
