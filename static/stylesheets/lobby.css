@@ -54,6 +54,7 @@ body {
 
 .game:hover {
     background-color: rgba(154, 154, 154, 0.5);
+    text-decoration: none;
 }
 
 #new_game_button {

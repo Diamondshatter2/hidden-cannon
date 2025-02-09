@@ -9,6 +9,7 @@
 
 #username button {
     margin-left: 1vh;
+    border: 1px solid black;
     background-color: rgb(216, 216, 216);
 }
 

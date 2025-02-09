@@ -86,6 +86,9 @@ def handle_move_request(column):
 
 @socketio.on("submit message")
 def send_message(message_content):
+    if not message_content or set(message_content) == { " " }:
+        return
+    
     game_id = request.args.get("game_id")
     message = { "sender": session["username"], "content": message_content }
     games[game_id].messages.append(message)
