@@ -28,8 +28,8 @@ socket.on('make move', move_data => {
 });
 
 
-socket.on('end game', outcome => {
+socket.on('end game', result => {
     end_sound.play();
-    indicator.innerHTML = (outcome == 'draw' ? 'Draw' : `${colors[outcome]} wins`); 
-    indicator.classList.add('outcome');
+    indicator.innerHTML = result; 
+    indicator.classList.add('result');
 });

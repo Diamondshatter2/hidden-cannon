@@ -81,7 +81,8 @@ def handle_move_request(column):
     socketio.emit("make move", move, room=game_id)
 
     if game.outcome is not None:
-        socketio.emit("end game", game.outcome, room=game_id)
+        result = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
+        socketio.emit("end game", result, room=game_id)
 
 
 @socketio.on("submit message")

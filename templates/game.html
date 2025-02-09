@@ -47,9 +47,9 @@
                 {% set color = game.colors[game.whose_turn] %}
                 <div class="space" style="background-color: {{ color }};"></div>
             {% elif game.outcom == "draw" %}
-                <div class="outcome">draw</div>
+                <div class="result">draw</div>
             {% else %}
-                <div class="outcome">{{ game.usernames[game.outcome] }} wins</div>
+                <div class="result">{{ game.usernames[game.outcome] }} wins</div>
             {% endif %}
         </div>
     </div>
