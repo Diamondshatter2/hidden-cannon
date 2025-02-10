@@ -95,8 +95,13 @@ body {
     text-align: center;
 }
 
+#info h1 {
+    margin-bottom: 10vh;
+}
+
 #info p {
     margin-top: 1.7em;
+    font-size: 1.1em;
 }
 
 #new_game_popup_overlay {
@@ -113,12 +118,13 @@ body {
 }
 
 #game_name {
-    height: 8vh;
     width: 25vw;
-    font-size: 4vh;
+    height: 2em;
+    font-size: 1em;
     padding: 0;
     box-sizing: border-box;
     text-align: center;
+    border: 1px solid black;
 }
 
 #new_game_submit {
@@ -144,6 +150,7 @@ body {
 }
 
 #new_game_form {
+    font-family: 'Times New Roman', Times, serif;
     background-color: rgb(188, 188, 188);
     padding: 3vh;
 }
@@ -155,6 +162,7 @@ body {
     height: 5vh;
     font-size: 4vh;
     line-height: 50%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #new_game_options {
