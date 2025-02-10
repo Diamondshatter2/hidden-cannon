@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('new_game_button').addEventListener('click', () => {
         new_game_overlay.style.display = 'flex';
+        name.focus();
     });
 
     document.addEventListener('click', event => {
