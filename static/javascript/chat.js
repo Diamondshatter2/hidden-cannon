@@ -18,4 +18,5 @@ chat_socket.on('update chat', message => {
     sender.innerText = message['sender'], content.innerText = message['content']; 
     sender.classList.add('sender'), content.classList.add('message');
     chat.appendChild(sender), chat.appendChild(content);
+    content.scrollIntoView();
 });
