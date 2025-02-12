@@ -12,7 +12,7 @@
     <div id="games_container">
         <div class="header">Join a game</div>
         <div id="games">
-            {% for game_id, game in games.items() %}
+            {% for game_id, game in games.items()|reverse %}
                 <a href="/play?game_id={{ game_id }}" class="game">{{ game["name"] }}</a>
             {% endfor %}
         </div>

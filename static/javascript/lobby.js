@@ -31,5 +31,5 @@ socket.on('add game to list', game => {
     link.classList.add('game');
     link.href = `/play?game_id=${id}` 
     link.innerText = name;
-    document.getElementById('games').appendChild(link);
+    document.getElementById('games').prepend(link);
 });
