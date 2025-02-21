@@ -6,11 +6,16 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/game.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/board.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/chat.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/chessboard-1.0.0.min.css') }}">
+    
 
     <script>const colors = {{ game.colors|tojson }}</script>
-    <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='javascript/seats.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='javascript/chessboard-1.0.0.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
+    
 {% endblock %}
 
 {% block body %}
@@ -32,16 +37,7 @@
         {% endfor %}
     </div>
     <div id="middle_content">
-        <div id="board">
-            {% for column in range(7) %}
-                <div class="column">
-                    {% for space in range(6) %}
-                        {% set color = game.colors[game.board[column][space]] %}
-                        <div class="space" style="background-color: {{ color }};"></div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
+        <div id="board"></div>
         <div id="indicator">
             {% if game.outcome is none %}
                 {% set color = game.colors[game.whose_turn] %}
