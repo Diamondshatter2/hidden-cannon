@@ -65,7 +65,7 @@ def assign_seat(seat_number):
 
 
 @socketio.on("request move")
-def handle_move_request(column): 
+def handle_move_request(move): 
     game_id = request.args.get("game_id")
     if game_id not in games:
         return
@@ -74,11 +74,11 @@ def handle_move_request(column):
     if game.players[game.whose_turn] != session["player_id"]:
         return
     
-    move = game.make_move(column)
-    if not move:
+    new_board_state = game.make_move(move)
+    if not new_board_state:
         return
 
-    socketio.emit("make move", move, room=game_id)
+    socketio.emit("update board state", new_board_state, room=game_id)
 
     if game.outcome is not None:
         game.result_message = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
