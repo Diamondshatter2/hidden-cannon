@@ -10,6 +10,7 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='javascript/chessboard-1.0.0.min.js') }}" type="text/javascript"></script>
+    <script>const fen = "{{ game.fen }}"</script>
     <script src="{{ url_for('static', filename='javascript/game.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='javascript/seats.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>

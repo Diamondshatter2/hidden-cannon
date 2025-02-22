@@ -8,13 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     board = Chessboard('board', {
         draggable: true,
         dropOffBoard: 'snapback',
-        position: 'start',
+        position: fen,
         pieceTheme: '/static/images/{piece}.png',
         onDrop: (source, target) => {
             if (source != target) {
                 socket.emit('request move', { from: source, to: target });
             }
-            return 'snapback';
         }
     });
 })

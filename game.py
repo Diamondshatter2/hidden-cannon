@@ -11,10 +11,13 @@ class Game:
         self.board = chess.Board()
         self.whose_turn = 0
         self.outcome = None
+        self.fen = chess.STARTING_FEN
 
     def make_move(self, move_data):
         move = chess.Move.from_uci(move_data["from"] + move_data["to"]) 
 
         if move in self.board.legal_moves:  
             self.board.push(move) 
-            return self.board.fen()
+            self.fen = self.board.fen()
+            self.whose_turn = int(not self.whose_turn)
+            return self.fen
