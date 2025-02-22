@@ -16,8 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-})
 
+    document.querySelector('#options button').addEventListener('click', () => {
+        let board_classes = document.querySelector('.board-b72b1').classList;
+        if (board_classes.contains('upside-down')) {
+            board_classes.remove('upside-down');
+        } else {
+            board_classes.add('upside-down');
+        }
+    });
+})
 
 socket.on('update board state', board_state => {
     console.log(board_state);

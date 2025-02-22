@@ -3,3 +3,12 @@
     width: 80vh;
     margin: 20px auto;
 }
+
+#options button {
+    margin-left: auto;
+}
+
+.upside-down {
+    display: flex; 
+    flex-direction: column-reverse; 
+}
