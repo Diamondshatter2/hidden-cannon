@@ -24,9 +24,10 @@
     <div id="left_content"> 
         <a id="lobby_link" href="/">Back to lobby</a>
         <div id="game_name">{{ game.name }}</div>
+        {% set players = ['White', 'Black'] %}
         {% for i in range(2) %}
             <div>
-                <span class="seat_label">Player {{ i + 1 }}:</span>
+                <span class="seat_label">{{ players[i] }}:</span>
                 <span class="seat">
                     {% if game.usernames[i] is none %}
                         <button class="seat_button">Take seat</button>
