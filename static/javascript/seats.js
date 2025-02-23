@@ -16,7 +16,7 @@ function request_seat() {
 seats_socket.on('grant seat', seat => {
     seats[seat["number"]].innerHTML = seat["user"];
     if (seat["number"] == 1) {
-        document.querySelector('.board-b72b1').classList.add('upside-down');
+        board.orientation('black');
     }
 });
 
