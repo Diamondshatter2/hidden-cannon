@@ -74,8 +74,6 @@ def assign_seat(seat_number):
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
-        if seat_number == 1:
-            socketio.emit("flip board", room=request.sid)
         if None not in game.players:
             socketio.emit("begin game", room=game_id)
 
