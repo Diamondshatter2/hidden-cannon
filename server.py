@@ -64,27 +64,18 @@ def create_game(game_name):
     socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
 
-'''
-@socketio.on("connect to game")
-def orient_board():
-        if session["player_id"] == games[request.args.get("game_id")].players[1]:
-            socketio.emit("flip board", room=request.sid)
-'''
-
-
 @socketio.on("request seat")
 def assign_seat(seat_number):
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    if game.players[seat_number] is None:
+    if game.players[seat_number] is None and session["player_id"] not in game.players:
         game.players[seat_number] = session["player_id"]
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
         if seat_number == 1:
             socketio.emit("flip board", room=request.sid)
-            socketio.emit("test", "you are black", room=request.sid) # testing
 
 
 @socketio.on("request move")
@@ -94,10 +85,9 @@ def handle_move_request(move):
         return
 
     game = games[game_id]
-    if game.players[game.whose_turn] != session["player_id"]:
+    if game.players[game.whose_turn] != session["player_id"] or None in game.players:
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
-    
     
     move_data = game.make_move(move)
     if not move_data:
