@@ -80,11 +80,14 @@ def handle_move_request(move):
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
     
-    new_board_state = game.make_move(move)
+    move_type, new_board_state = game.make_move(move)
     if not new_board_state:
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
 
+    socketio.emit("make move sound", move_type)
+    # testing
+    socketio.emit("test", move_type)
     socketio.emit("update board state", new_board_state, room=game_id)
 
     if game.outcome is not None:

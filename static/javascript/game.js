@@ -1,4 +1,6 @@
-const end_sound = new Audio('static/audio/game-end.mp3');
+const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
+const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
+const end_sound = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
 
 let board;
 const game_id = new URLSearchParams(window.location.search).get('game_id');
@@ -31,6 +33,14 @@ socket.on('update board state', board_state => {
     console.log(board_state);
     board.position(board_state);
 })
+
+socket.on('make move sound', move_type => {
+    if (move_type == 'capture') {
+        capture_sound.play();
+    } else {
+        move_sound.play();
+    }
+});
 
 socket.on('end game', result => {
     end_sound.play();

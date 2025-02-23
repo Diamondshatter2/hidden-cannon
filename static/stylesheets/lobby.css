@@ -169,12 +169,3 @@ body {
     flex-direction: row;
     width: 25vw;
 }
-
-a {
-    text-decoration: none;
-    color: maroon;
-}
-
-a:hover {
-    text-decoration: underline;
-}

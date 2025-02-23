@@ -17,7 +17,8 @@ class Game:
         move = chess.Move.from_uci(move_data["from"] + move_data["to"]) 
 
         if move in self.board.legal_moves:  
+            move_type = "capture" if self.board.is_capture(move) else "normal"
             self.board.push(move) 
             self.fen = self.board.fen()
             self.whose_turn = int(not self.whose_turn)
-            return self.fen
+            return move_type, self.fen
