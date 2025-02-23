@@ -6,8 +6,13 @@ let board;
 const game_id = new URLSearchParams(window.location.search).get('game_id');
 const socket = io.connect({ query: { game_id } });
 
+socket.emit('connect to game');
+
 document.addEventListener('DOMContentLoaded', () => {
+    let orientation = (player == 0 || player == 'None' ? 'white' : 'black');
+    console.log(player); // testing
     board = Chessboard('board', {
+        orientation: orientation,
         draggable: true,
         dropOffBoard: 'snapback',
         position: fen,
@@ -28,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 })
+
+socket.on('flip board', () => document.querySelector('.board-b72b1').classList.add('upside-down')); 
 
 socket.on('update board state', board_state => {
     console.log(board_state);

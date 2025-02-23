@@ -33,9 +33,16 @@ def serve_rules():
 @app.route("/play", methods=['GET', 'POST'])
 def serve_game(): 
     try:
-        return render_template("game.html", game=games[request.args.get("game_id")], username=session["username"])
+        game = games[request.args["game_id"]]
     except KeyError:
         return "Invalid game ID", 404
+    
+    player = None
+    for i in [0, 1]:
+        if session["player_id"] == game.players[i]:
+            player = i
+
+    return render_template("game.html", game=game, player=player, username=session["username"])
 
 
 @socketio.on("connect")
@@ -57,6 +64,14 @@ def create_game(game_name):
     socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
 
+'''
+@socketio.on("connect to game")
+def orient_board():
+        if session["player_id"] == games[request.args.get("game_id")].players[1]:
+            socketio.emit("flip board", room=request.sid)
+'''
+
+
 @socketio.on("request seat")
 def assign_seat(seat_number):
     game_id = request.args.get("game_id")
@@ -67,6 +82,9 @@ def assign_seat(seat_number):
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
+        if seat_number == 1:
+            socketio.emit("flip board", room=request.sid)
+            socketio.emit("test", "you are black", room=request.sid) # testing
 
 
 @socketio.on("request move")
