@@ -1,8 +1,6 @@
 body {
-    display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgb(23, 21, 19);
 }
 
 #left_content {

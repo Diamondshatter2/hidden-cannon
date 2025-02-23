@@ -1,0 +1,17 @@
+/* see about refactoring since this overlaps with lobby.css */
+
+#rules {
+    margin-top: 2.5vh;
+    flex-grow: 1;
+    padding: 5vh;
+    color: rgb(188, 188, 188);
+}
+
+#rules h1 {
+    margin-top: 10vh;
+}
+
+#rules li {
+    margin-top: 1.7em;
+    font-size: 1.1em;
+}

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <title>Rules</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/rules.css') }}"></link>
+{% endblock %}
+
+
+{% block body %}
+    <div id="rules"> <!--Refactor to be list-->
+        <h1>Rules</h1>
+        <ol start="0">
+            <li>
+                All <a href="https://en.wikipedia.org/wiki/Rules_of_chess">rules of chess</a> apply
+                unless they conflict with the following rules.
+            </li>
+            <li>
+                Before the game begins, each player secretly designates one of their rooks and one of their bishops as a <b>cannon</b>.
+            </li>
+            <li>
+                Cannons move normally when not capturing, but capture by jumping over exactly one piece between themselves
+                and the target piece. A cannon cannot capture without jumping and cannot jump without capturing.
+            </li>
+            <li>
+                When a player makes their first rook capture, their rook designation is revealed, and likewise for bishops.
+            </li>
+            <li>
+                A piece whose status is not revealed (e.g. a White bishop before White has made a capture with a bishop)
+                may not give check or checkmate.
+            </li>
+        </ol>
+    </div>
+    <div id="comments">
+        <!--Insert commentary here, including diagrams-->
+    </div>
+{% endblock %}

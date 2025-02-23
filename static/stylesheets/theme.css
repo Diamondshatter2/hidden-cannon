@@ -1,0 +1,13 @@
+body {
+    display: flex;
+    background-color: rgb(23, 21, 19);
+}
+
+a {
+    text-decoration: none;
+    color: maroon;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <title>Play Connect 4</title>
+    <title>Hidden Cannon Chess</title>
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/lobby.css') }}">
     <script src="{{ url_for('static', filename='javascript/lobby.js') }}" type="text/javascript"></script>
@@ -31,20 +31,23 @@
     <div id="info">
         <h1>Welcome!</h1>
         <p>
-            Hi, my name is Alistair Folster. This is my Connect 4 web app, built using Flask and Flask-SocketIO.
-            Check out the source code on <a href="https://github.com/Diamondshatter2/connect-four-flask-app">GitHub</a>.
+            This is a web app for Hidden Cannon Chess, a variant I invented inspired by 
+            <a href="https://en.wikipedia.org/wiki/Xiangqi">Xiangqi</a>. 
+            Read the rules <a href="rules"><b>HERE</b></a>.
+        </p>
+        <p>
+            This app is built using <a href="https://flask.palletsprojects.com/en/stable/">Flask</a>
+            and <a href="https://flask-socketio.readthedocs.io/en/latest/">Flask-SocketIO</a>, 
+            as well as <a href="https://chessboardjs.com/">chessboard.js</a> 
+            and <a href="https://python-chess.readthedocs.io/en/latest/">python-chess</a>.
+            Check out the source code on <a href="https://github.com/Diamondshatter2/hidden-cannon">GitHub</a>.
         </p>
         <p>
             Via the seat mechanic, inspired by <a href="https://go.kahv.io">Variant go server</a>, 
             two people can play each other on the same computer or from different continents.
         </p>
         <p>
-            The move sound effects were clipped from 
-            <a href="https://www.101soundboards.com/sounds/28143767-connect-4-game-connect-4-board-game-connect-four-at-discokingmusic">here</a>.
-            The game end sound effect is <a href="https://www.chess.com">Chess.com</a>'s; all rights go to them.
-        </p>
-        <p>
-            Connect 4 is a registered trademark of Hasbro, Inc; I am obviously not affiliated with them.
+            All sound effects are taken from <a href="https://lichess.org/">Lichess</a>.
         </p>
     </div>
 {% endblock %}

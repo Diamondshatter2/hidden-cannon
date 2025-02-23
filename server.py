@@ -25,6 +25,11 @@ def serve_lobby():
     return render_template("lobby.html", games=games, username=session["username"])
 
 
+@app.route("/rules")
+def serve_rules():
+    return render_template("rules.html")
+
+
 @app.route("/play", methods=['GET', 'POST'])
 def serve_game(): 
     try:
