@@ -1,6 +1,6 @@
 const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
 const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
-const end_sound = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
+const notify = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
 
 let board;
 const game_id = new URLSearchParams(window.location.search).get('game_id');
@@ -47,7 +47,7 @@ socket.on('make move sound', move_type => {
 });
 
 socket.on('end game', result => {
-    end_sound.play();
+    notify.play();
     indicator.innerHTML = result; 
     indicator.classList.add('result');
 });
