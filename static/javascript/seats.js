@@ -13,11 +13,8 @@ function request_seat() {
     seats_socket.emit('request seat', seats.indexOf(this.parentElement)); 
 }
 
-seats_socket.on('grant seat', seat => {
-    seats[seat["number"]].innerHTML = seat["user"];
-    if (seat["number"] == 1) {
-        board.orientation('black');
-    }
-});
+seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
+
+seats_socket.on('flip board', () => board.orientation('black'));
 
 seats_socket.on('begin game', () => notify.play());
