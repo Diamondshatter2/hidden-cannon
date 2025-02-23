@@ -2,13 +2,15 @@ const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
 const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
 const notify = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
 
-let board;
+let board, indicator;
 const game_id = new URLSearchParams(window.location.search).get('game_id');
 const socket = io.connect({ query: { game_id } });
 
 socket.emit('connect to game');
 
 document.addEventListener('DOMContentLoaded', () => {
+    indicator = document.getElementById('indicator');
+    
     let orientation = (player == 0 || player == 'None' ? 'white' : 'black');
     board = Chessboard('board', {
         orientation: orientation,
@@ -36,6 +38,7 @@ socket.on('make move sound', move_type => {
 
 socket.on('end game', result => {
     notify.play();
+    document.getElementById('resign').style.display = 'none';
     indicator.innerHTML = result; 
     indicator.classList.add('result');
 });

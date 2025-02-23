@@ -53,6 +53,10 @@ body {
     background-color: rgba(216, 216, 216, 0.5);
 }
 
+#resign {
+    display: none;
+}
+
 #indicator {
     margin-top: 4vh;
 }
@@ -64,3 +68,4 @@ body {
     font-family: 'Courier New', Courier, monospace;
     background-color: rgb(216, 216, 216);
 }
+

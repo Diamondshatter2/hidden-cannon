@@ -74,6 +74,7 @@ def assign_seat(seat_number):
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
+        socketio.emit("show resign button", room=request.sid)
         if seat_number == 1:
             socketio.emit("flip board", room=request.sid)
         if None not in game.players: # move this part to client side?
@@ -103,6 +104,16 @@ def handle_move_request(move):
     if game.outcome is not None:
         game.result_message = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
         socketio.emit("end game", game.result_message, room=game_id)
+
+
+@socketio.on("resign")
+def handle_resignation_request():
+    game_id = request.args.get("game_id")
+    game = games[game_id]
+    for i in [0, 1]:
+        if session["player_id"] == game.players[i]:
+            game.outcome = 1 - i
+            socketio.emit("end game", f"Player {i} resigned", room=game_id)
 
 
 @socketio.on("submit message")
