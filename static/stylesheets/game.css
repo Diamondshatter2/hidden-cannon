@@ -47,11 +47,12 @@ body {
 
 #indicator {
     margin-top: 0.5vh;
-    padding: 0;
 }
 
 .result {
-    padding: 1.5vh;
+    padding-top: 0;
+    padding-right: 2vh;
+    padding-left: 2vh;
     border: 0.5vh solid black;
     font-size: 5vh;
     font-family: 'Courier New', Courier, monospace;

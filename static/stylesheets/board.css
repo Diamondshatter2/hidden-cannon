@@ -3,8 +3,3 @@
     width: 80vh;
     margin: 20px auto;
 }
-
-.upside-down {
-    display: flex; 
-    flex-direction: column-reverse; 
-}
