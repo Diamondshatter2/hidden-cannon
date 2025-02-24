@@ -40,7 +40,6 @@ socket.on('end game', result => {
     notify.play();
     document.getElementById('resign').style.display = 'none';
     indicator.innerHTML = result; 
-    indicator.classList.add('result');
 });
 
 // testing

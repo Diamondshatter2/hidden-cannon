@@ -22,7 +22,7 @@
 
 {% block body %}
     <div id="left_content"> 
-        <a id="lobby_link" href="/">Back to lobby</a>
+        <a class="lobby_link" href="/">Back to lobby</a>
         <div id="game_name">{{ game.name }}</div>
         {% set players = ['White', 'Black'] %}
         {% for i in range(2) %}
@@ -42,7 +42,7 @@
     <div id="middle_content">
         <div id="board"></div>
         <button id="resign" {% if player is not none and game.outcome is none%} style="display:block" {% endif %}>Resign</button>
-        <div id="indicator" class="result">
+        <div id="indicator" {% if game.outcome is not none %} class="result" {% endif %}>
             {% if game.outcome is not none %}
                 {{ game.outcome }}
             {% endif %}
