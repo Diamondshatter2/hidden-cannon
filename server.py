@@ -103,7 +103,7 @@ def handle_move_request(move):
 
     if game.outcome is not None:
         game.result_message = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
-        socketio.emit("end game", game.result_message, room=game_id)
+        socketio.emit("end game", game.outcome, room=game_id)
 
 
 @socketio.on("resign")
@@ -112,8 +112,8 @@ def handle_resignation_request():
     game = games[game_id]
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
-            game.outcome = 1 - i
-            socketio.emit("end game", f"Player {i} resigned", room=game_id)
+            game.outcome = f"{game.colors[i - 1]} wins by resignation"
+            socketio.emit("end game", game.outcome, room=game_id)
 
 
 @socketio.on("submit message")

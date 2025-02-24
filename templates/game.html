@@ -41,8 +41,12 @@
     </div>
     <div id="middle_content">
         <div id="board"></div>
-        <button id="resign" {% if player is not none %} style="display:block" {% endif %}>Resign</button>
-        <div id="indicator"></div>
+        <button id="resign" {% if player is not none and game.outcome is none%} style="display:block" {% endif %}>Resign</button>
+        <div id="indicator" class="result">
+            {% if game.outcome is not none %}
+                {{ game.outcome }}
+            {% endif %}
+        </div>
     </div>
     <div id="right_content">
         <div id="chat_header">Chat</div>

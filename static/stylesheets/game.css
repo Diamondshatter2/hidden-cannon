@@ -58,7 +58,8 @@ body {
 }
 
 #indicator {
-    margin-top: 4vh;
+    margin-top: 0.5vh;
+    padding: 0;
 }
 
 .result {
