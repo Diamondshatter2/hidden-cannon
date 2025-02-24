@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resign_button = document.getElementById('resign');
 
     seat_buttons.forEach(button => button.addEventListener('click', request_seat));
+    resign_button.addEventListener('click', () => seats_socket.emit('resign'));
 });
 
 function request_seat() {
@@ -18,9 +19,6 @@ seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["us
 
 seats_socket.on('show resign button', () => resign_button.style.display = 'block');
 
-seats_socket.on('flip board', flip_board);
+seats_socket.on('flip board', () => board.orientation('black'));
 
-seats_socket.on('begin game', () => {
-    notify.play();
-    resign_button.addEventListener('click', () => seats_socket.emit('resign'));
-});
+seats_socket.on('begin game', () => notify.play());

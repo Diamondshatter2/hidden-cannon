@@ -26,17 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function flip_board() {
-    if (board.orientation() == 'white') {
-        board.orientation('black');
-    } else {
-        board.orientation('white');
-    }
-}
-
 socket.on('update board state', board_state => board.position(board_state));
-
-socket.on('flip board', flip_board);
 
 socket.on('make move sound', move_type => {
     if (move_type == 'capture') {

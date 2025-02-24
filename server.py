@@ -1,7 +1,6 @@
 from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex
-from time import sleep
 from game import Game
 
 app = Flask(__name__)
@@ -70,13 +69,13 @@ def assign_seat(seat_number):
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    if game.players[seat_number] is None:
+    if game.players[seat_number] is None and session["player_id"] not in game.players:
         game.players[seat_number] = session["player_id"]
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
         socketio.emit("show resign button", room=request.sid)
-        if seat_number == 1 and game.players[0] != session["player_id"] or seat_number == 0 and game.players[1] == session["player_id"]:
+        if seat_number == 1:
             socketio.emit("flip board", room=request.sid)
         if None not in game.players: # move this part to client side?
             socketio.emit("begin game", room=game_id)
@@ -101,10 +100,6 @@ def handle_move_request(move):
     move_type, new_board_state = move_data
     socketio.emit("make move sound", move_type)
     socketio.emit("update board state", new_board_state, room=game_id)
-
-    if game.players[0] == game.players[1]:
-        sleep(0.5)
-        socketio.emit("flip board", room=request.sid)
 
     if game.outcome is not None:
         game.result_message = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
