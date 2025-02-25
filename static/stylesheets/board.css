@@ -3,3 +3,7 @@
     width: 80vh;
     margin: 20px auto;
 }
+
+.piece_highlight {
+    background-color: green !important;
+}
