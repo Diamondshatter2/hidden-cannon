@@ -74,19 +74,25 @@ def assign_seat(seat_number):
         game.usernames[seat_number] = session["username"]
 
         socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
-        socketio.emit("offer player options", seat_number, room=request.sid)
+        socketio.emit("change player view", seat_number, room=request.sid)
+        socketio.emit("offer cannon selection", "rook", room=request.sid)
         if None not in game.players: # move this part to client side?
             socketio.emit("begin game", room=game_id)
 
 
-@socketio.on("select rook")
-def initialize_cannon(side):
+@socketio.on("select cannon")
+def initialize_cannon(selection):
     game = games[request.args["game_id"]]
+    piece = selection["piece"]
+
     player = game.players.index(session["player_id"])
-    if not player:
+    if player is None or game.cannons[player][piece] is not None:
         return
     
-    game.cannons[player]['R'] = side
+    game.cannons[player][piece] = selection["side"]
+
+    if piece == "rook":
+        socketio.emit("offer cannon selection", "bishop", room=request.sid)
 
 
 @socketio.on("request move")
