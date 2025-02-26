@@ -14,6 +14,7 @@ class Game:
         self.whose_turn = 0
         self.outcome = None
         self.fen = chess.STARTING_FEN
+        self.cannons = [{'R': None, 'B': None}, {'R': None, 'B': None}]
 
     def make_move(self, move_data):
         move = chess.Move.from_uci(move_data["from"] + move_data["to"]) 

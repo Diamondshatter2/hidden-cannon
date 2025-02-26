@@ -80,9 +80,13 @@ def assign_seat(seat_number):
 
 
 @socketio.on("select rook")
-def initialize_cannon(rook_position):
-    print(rook_position, "\n\n\n\n")
-    socketio.emit("begin game")
+def initialize_cannon(side):
+    game = games[request.args["game_id"]]
+    player = game.players.index(session["player_id"])
+    if not player:
+        return
+    
+    game.cannons[player]['R'] = side
 
 
 @socketio.on("request move")

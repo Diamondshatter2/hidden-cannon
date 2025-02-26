@@ -13,10 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-chat_socket.on('update chat', message => {
+chat_socket.on('update chat', message => post_message(message));
+
+function post_message(message) {
     const sender = document.createElement('span'), content = document.createElement('span'); 
     sender.innerText = message['sender'], content.innerText = message['content']; 
     sender.classList.add('sender'), content.classList.add('message');
     chat.appendChild(sender), chat.appendChild(content);
     content.scrollIntoView();
-});
+}

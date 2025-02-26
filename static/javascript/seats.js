@@ -19,23 +19,25 @@ seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["us
 
 seats_socket.on('offer player options', seat_number => {
     resign_button.style.display = 'block';
+
     if (seat_number == 1) {
         board.orientation('black');
     }
+
     let home_row = document.querySelector('.board-b72b1').lastElementChild.children;
     for (const i of [0, 7]) {
         home_row[i].classList.add('piece_highlight');
-        console.log(home_row[i].querySelector('img'));
-        home_row[i].querySelector('img').addEventListener('click', event => {
-            event.stopPropagation();
-            console.log('click recieved');
-            console.log(i);
-            seats_socket.emit('select rook', i);
-        });
     } 
 
-    // display "choose which rook will be a hidden cannon"
-    // add click listener to rooks
+    // This function is found in chat.js
+    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a rook' });
+
+    document.addEventListener('keydown', event => {
+        let key = event.key.toUpperCase();
+        if (key == 'Q' || key == 'K') {
+            seats_socket.emit('select rook', key);
+        }
+    });
 });
 
 seats_socket.on('begin game', () => notify.play());
