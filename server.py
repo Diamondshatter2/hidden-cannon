@@ -93,7 +93,7 @@ def initialize_cannon(selection):
     game.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
     print(game.cannons) # debugging
 
-    socketio.emit("highlight cannon", selection, room=request.sid)
+    socketio.emit("highlight cannon", game.cannons[piece][player], room=request.sid)
 
     if piece == "rook":
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
@@ -146,4 +146,4 @@ def send_message(message_content):
     
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000)

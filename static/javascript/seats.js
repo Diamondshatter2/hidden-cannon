@@ -50,4 +50,8 @@ seats_socket.on('offer cannon selection', piece => {
     });
 });
 
+seats_socket.on('highlight cannons', square => {
+    //
+});
+
 seats_socket.on('begin game', () => notify.play());

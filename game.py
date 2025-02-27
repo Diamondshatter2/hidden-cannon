@@ -17,10 +17,12 @@ class Game:
         self.cannons = {'rook': [None, None], 'bishop': [None, None]}
 
     def make_move(self, move_data):
-        if move_data["from"] in self.cannons['rook']:
+        to_index = chess.parse_square(move_data["to"])
+
+        if move_data["from"] in self.cannons['rook'] and self.board.piece_at(to_index) is not None:
             return self.make_rook_cannon_move(move_data)
         
-        if move_data["from"] in self.cannons['bishop']:
+        if move_data["from"] in self.cannons['bishop'] and self.board.piece_at(to_index) is not None:
             return self.make_bishop_cannon_move(move_data)
         
         move = chess.Move.from_uci(move_data["from"] + move_data["to"]) 
@@ -37,6 +39,8 @@ class Game:
         if not (move_data["from"][0] == move_data["to"][0] or move_data["from"][1] == move_data["to"][1]):
             return
         
+        print("rook cannon move attemped")
+        
 
     def make_bishop_cannon_move(self, move_data):
-        pass
+        print("bishop cannon move attemped")
