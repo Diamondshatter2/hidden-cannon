@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         dropOffBoard: 'snapback',
         position: fen,
         pieceTheme: '/static/images/{piece}.png',
+
+        onDragStart: () => {
+            //
+        },
+        
         onDrop: (source, target) => {
             if (source != target) {
                 socket.emit('request move', { from: source, to: target });

@@ -86,10 +86,16 @@ def initialize_cannon(selection):
     piece = selection["piece"]
 
     player = game.players.index(session["player_id"])
-    if player is None or game.cannons[player][piece] is not None:
+    if player is None or game.cannons[piece][player] is not None:
         return
     
-    game.cannons[player][piece] = selection["side"]
+    positions = {"Q": "a", "K": "h"} if piece == "rook" else {"Q": "c", "K": "f"}            
+    game.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
+    print(game.cannons) # debugging
+
+    # record position of cannon
+
+    socketio.emit("highlight cannon", selection, room=request.sid)
 
     if piece == "rook":
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
