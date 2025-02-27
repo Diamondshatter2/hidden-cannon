@@ -93,8 +93,6 @@ def initialize_cannon(selection):
     game.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
     print(game.cannons) # debugging
 
-    # record position of cannon
-
     socketio.emit("highlight cannon", selection, room=request.sid)
 
     if piece == "rook":
