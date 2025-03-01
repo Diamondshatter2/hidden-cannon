@@ -30,7 +30,7 @@
                 <span class="seat_label">{{ players[i] }}:</span>
                 <span class="seat">
                     {% if game.usernames[i] is none %}
-                        <button class="seat_button">Take seat</button>
+                        Waiting...
                     {% else %}
                         {{ game.usernames[i] }}
                     {% endif %}

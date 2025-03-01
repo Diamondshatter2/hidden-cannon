@@ -6,8 +6,6 @@ let board, indicator;
 const game_id = new URLSearchParams(window.location.search).get('game_id');
 const socket = io.connect({ query: { game_id } });
 
-socket.emit('connect to game');
-
 document.addEventListener('DOMContentLoaded', () => {
     indicator = document.getElementById('indicator');
     

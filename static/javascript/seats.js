@@ -1,19 +1,16 @@
-let seats, seat_buttons, resign_button;
+let seats, resign_button;
 
 const seats_socket = io.connect({ query: { game_id } });
 
+
+seats_socket.emit('connect to game');
+
 document.addEventListener('DOMContentLoaded', () => {
     seats = Array.from(document.querySelectorAll('.seat'));
-    seat_buttons = Array.from(document.querySelectorAll('.seat_button'));
     resign_button = document.getElementById('resign');
 
-    seat_buttons.forEach(button => button.addEventListener('click', request_seat));
     resign_button.addEventListener('click', () => seats_socket.emit('resign'));
 });
-
-function request_seat() {
-    seats_socket.emit('request seat', seats.indexOf(this.parentElement)); 
-}
 
 seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 

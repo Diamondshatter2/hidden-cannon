@@ -64,20 +64,24 @@ def create_game(game_name):
     socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
 
-@socketio.on("request seat")
-def assign_seat(seat_number):
+@socketio.on("connect to game")
+def connect_to_game():
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    if game.players[seat_number] is None and session["player_id"] not in game.players:
-        game.players[seat_number] = session["player_id"]
-        game.usernames[seat_number] = session["username"]
+    for seat_number in [0, 1]:
+        if game.players[seat_number] is None and session["player_id"] not in game.players:
+            game.players[seat_number] = session["player_id"]
+            game.usernames[seat_number] = session["username"]
 
-        socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
-        socketio.emit("change player view", seat_number, room=request.sid)
-        socketio.emit("offer cannon selection", "rook", room=request.sid)
-        if None not in game.players: # move this part to client side?
-            socketio.emit("begin game", room=game_id)
+            socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
+            socketio.emit("change player view", seat_number, room=request.sid)
+            socketio.emit("offer cannon selection", "rook", room=request.sid)
+            if None not in game.players: # move this part to client side?
+                socketio.emit("begin game", room=game_id)
+            
+            break
+
 
 
 @socketio.on("select cannon")
