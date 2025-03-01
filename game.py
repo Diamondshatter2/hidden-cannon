@@ -75,5 +75,9 @@ class Game:
             self.cannons[cannon_type][self.whose_turn] = chess.square_name(move.to_square) # refactor cannons to use indices
 
         self.whose_turn = 1 - self.whose_turn # Toggle between 0 and 1
+
+        for type in ['rook', 'bishop']:
+            if chess.square_name(move.to_square) == self.cannons[type][self.whose_turn]:
+                self.cannons[type][self.whose_turn] = None
     
-        return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type} # server.py needs updating to handle this format
+        return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type}
