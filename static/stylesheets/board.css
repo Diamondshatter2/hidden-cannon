@@ -7,3 +7,7 @@
 .piece_highlight {
     background-color: green !important;
 }
+
+.cannon {
+    transform: rotate(45deg);
+}

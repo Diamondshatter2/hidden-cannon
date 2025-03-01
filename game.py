@@ -16,7 +16,7 @@ class Game:
         self.outcome = None
         self.fen = chess.STARTING_FEN
         self.cannons = {'rook': [None, None], 'bishop': [None, None]}
-        self.is_revealed{'rook': [False, False], 'bishop': [False, False]}
+        self.is_revealed = {'rook': [False, False], 'bishop': [False, False]}
 
 
     def make_move(self, move_data):
@@ -29,15 +29,22 @@ class Game:
         target_piece = self.board.piece_at(to_index)
         is_capture = (target_piece is not None and target_piece.color != self.board.turn)
 
-        if move_data["from"] in self.cannons['rook'] and is_capture:
+        for type in ['rook', 'bishop']:
+            if move_data["from"] in self.cannons[type]:
+                cannon_type = type
+                break
+        else:
+            cannon_type = None
+
+        if cannon_type == "rook" and is_capture:
             return self.make_rook_cannon_move(move_data)
         
-        if move_data["from"] in self.cannons['bishop'] and is_capture:
+        if cannon_type == "bishop" and is_capture:
             return self.make_bishop_cannon_move(move_data)
 
         move = chess.Move(from_index, to_index) 
-        if move in self.board.legal_moves:  
-            return self.push_move(move, is_capture=is_capture)
+        if move in self.board.pseudo_legal_moves:  
+            return self.push_move(move, cannon_type, is_capture=is_capture)
         
 
     def make_rook_cannon_move(self, move_data):
@@ -56,7 +63,7 @@ class Game:
 
         if len([piece for piece in pieces_between if piece is not None]) == 1:
             move = chess.Move(from_index, to_index)
-            return self.push_move(move, is_capture=True, cannon_type="rook")
+            return self.push_move(move, "rook", is_capture=True)
 
 
     def make_bishop_cannon_move(self, move_data):
@@ -76,10 +83,10 @@ class Game:
 
         if len([piece for piece in pieces_between if piece is not None]) == 1:
             move = chess.Move(from_index, to_index)
-            return self.push_move(move, is_capture=True, cannon_type="bishop")
+            return self.push_move(move, "bishop", is_capture=True)
         
 
-    def push_move(self, move, is_capture="false", cannon_type=None):
+    def push_move(self, move, cannon_type, is_capture="false"):
         self.board.push(move) 
         self.fen = self.board.fen()
 
@@ -91,5 +98,7 @@ class Game:
         for type in ['rook', 'bishop']:
             if chess.square_name(move.to_square) == self.cannons[type][self.whose_turn]:
                 self.cannons[type][self.whose_turn] = None
+
+        print(self.cannons)
     
         return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type}

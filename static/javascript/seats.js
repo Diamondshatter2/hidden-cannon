@@ -50,8 +50,8 @@ seats_socket.on('offer cannon selection', piece => {
     });
 });
 
-seats_socket.on('highlight cannons', square => {
-    //
+seats_socket.on('highlight cannon', square => {
+    document.querySelector('.square-' + square).querySelector('img').classList.add('cannon');   
 });
 
 seats_socket.on('begin game', () => notify.play());
