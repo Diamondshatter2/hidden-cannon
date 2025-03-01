@@ -65,7 +65,25 @@ class Game:
     def make_bishop_cannon_move(self, move_data):
         from_index = chess.parse_square(move_data["from"])
         to_index = chess.parse_square(move_data["to"])
+        difference = to_index - from_index 
 
+        for i in [7, 9]:
+            if difference % i == 0:
+                step = i * sign(difference)
+                break
+        else:
+            return
+        
+        path_to_target = list(range(from_index + step, to_index, step))
+        pieces_between = [self.board.piece_at(square) for square in path_to_target]
+
+        print(path_to_target)
+        print(pieces_between, "\n\n\n")
+
+        if len([piece for piece in pieces_between if piece is not None]) == 1:
+            move = chess.Move(from_index, to_index)
+            return self.push_move(move, is_capture=True, cannon_type="bishop")
+        
 
     def push_move(self, move, is_capture="false", cannon_type=None):
         self.board.push(move) 

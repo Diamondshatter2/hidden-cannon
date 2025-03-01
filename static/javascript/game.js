@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 socket.on('update board state', board_state => board.position(board_state));
 
-socket.on('make move sound', move_type => {
-    if (move_type == 'capture') {
+socket.on('play move sound', is_capture => {
+    if (is_capture) {
         capture_sound.play();
     } else {
         move_sound.play();
