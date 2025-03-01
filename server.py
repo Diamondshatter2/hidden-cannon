@@ -115,7 +115,8 @@ def handle_move_request(move):
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
     
-    move_type, new_board_state = move_data
+    move_type = "capture" if move_data["is capture"] else "normal" #refactor
+    new_board_state = move_data["fen"]
     socketio.emit("make move sound", move_type)
     socketio.emit("update board state", new_board_state, room=game_id)
 
@@ -146,4 +147,4 @@ def send_message(message_content):
     
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
