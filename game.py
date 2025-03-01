@@ -16,6 +16,7 @@ class Game:
         self.outcome = None
         self.fen = chess.STARTING_FEN
         self.cannons = {'rook': [None, None], 'bishop': [None, None]}
+        self.is_revealed{'rook': [False, False], 'bishop': [False, False]}
 
 
     def make_move(self, move_data):
@@ -53,10 +54,6 @@ class Game:
         path_to_target = list(range(from_index + step, to_index, step))
         pieces_between = [self.board.piece_at(square) for square in path_to_target]
 
-        print(path_to_target)
-        print(pieces_between, "\n\n\n")
-        print(f"pieces between: {len([piece for piece in pieces_between if piece is not None])}")
-
         if len([piece for piece in pieces_between if piece is not None]) == 1:
             move = chess.Move(from_index, to_index)
             return self.push_move(move, is_capture=True, cannon_type="rook")
@@ -76,9 +73,6 @@ class Game:
         
         path_to_target = list(range(from_index + step, to_index, step))
         pieces_between = [self.board.piece_at(square) for square in path_to_target]
-
-        print(path_to_target)
-        print(pieces_between, "\n\n\n")
 
         if len([piece for piece in pieces_between if piece is not None]) == 1:
             move = chess.Move(from_index, to_index)
