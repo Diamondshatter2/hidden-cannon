@@ -168,13 +168,17 @@ body {
     font-size: 4vh;
     line-height: 50%;
     font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 2vh;
+}
+
+#color_selection {
+    height: 4vh;
 }
 
 #color_selection span {
-    width: 70%;
+    width: 35%;
     text-align: center;
     font-size: 3vh;
-    font-weight: bold;
     border: 1px solid black;
     background-color: white;
 }
@@ -183,9 +187,9 @@ body {
     flex-grow: 1;
     box-sizing: border-box;
     border: 1px solid black;
-    height: 5vh;
-    font-size: 2vh;
+    font-size: 3vh;
     font-weight: bold;
+    align-items: center;
 }
 
 #color_selection option {

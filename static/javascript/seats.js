@@ -22,30 +22,8 @@ seats_socket.on('change player view', seat_number => {
     }
 });
 
-seats_socket.on('offer cannon selection', piece => {
-    positions = (piece == 'rook' ? [0, 7] : [2, 5]);
-
-    let home_row = document.querySelector('.board-b72b1').lastElementChild.children;
-    for (const i of positions) {
-        home_row[i].classList.add('piece_highlight');
-    } 
-
-    // This function is found in chat.js
-    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece });
-
-    document.addEventListener('keydown', function transmit_selection(event) {
-        let key = event.key.toUpperCase();
-        if (key == 'Q' || key == 'K') {
-            seats_socket.emit('select cannon', { piece, side: key });
-
-            for (const i of positions) {
-                home_row[i].classList.remove('piece_highlight');
-            } 
-
-            document.removeEventListener('keydown', transmit_selection);
-        }
-    });
-});
+// This function is found in game.js
+seats_socket.on('offer cannon selection', piece => offer_cannon_selection(piece)); // redundant syntax?
 
 seats_socket.on('highlight cannon', square => {
     document.querySelector('.square-' + square).querySelector('img').classList.add('cannon');   

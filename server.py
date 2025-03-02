@@ -1,6 +1,7 @@
 from flask import Flask, session, render_template, request
 from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex
+from random import choice
 from game import Game
 
 app = Flask(__name__)
@@ -41,6 +42,7 @@ def serve_game():
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
             player = i
+            break 
 
     return render_template("game.html", game=game, player=player, username=session["username"])
 
@@ -53,15 +55,23 @@ def add_connection_to_room():
 
 
 @socketio.on("new game")
-def create_game(game_name):
+def create_game(color):
     game_id = str(generate_id())
 
-    if not game_name or set(game_name) == { " " }:
-        game_name = f"Game by {session['username']}"
+    game_name = f"Game by {session['username']}"
 
-    games[game_id] = Game(game_name, session['username'])
+    games[game_id] = Game(game_name, session['username']) # second parameter needed?
+
+    if color == "random":
+        color = choice([0, 1])
+    else:
+        color = int(color)
+
+    games[game_id].players[color] = session["player_id"]
+    games[game_id].usernames[color] = session["username"]
 
     socketio.emit("add game to list", { "id": game_id, "name": game_name })
+    socketio.emit("redirect to game", game_id, room=request.sid)
 
 
 @socketio.on("connect to game")

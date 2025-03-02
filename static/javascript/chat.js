@@ -1,3 +1,4 @@
+const game_id = new URLSearchParams(window.location.search).get('game_id');
 let chat, message_box;
 const chat_socket = io.connect({ query: { game_id } });
 
