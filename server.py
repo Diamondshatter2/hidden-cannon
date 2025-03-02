@@ -87,9 +87,7 @@ def connect_to_game():
             socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
             socketio.emit("change player view", seat_number, room=request.sid)
             socketio.emit("offer cannon selection", "rook", room=request.sid)
-            if None not in game.players: # move this part to client side?
-                socketio.emit("begin game", room=game_id)
-            
+
             break
 
 
@@ -98,6 +96,8 @@ def connect_to_game():
 def initialize_cannon(selection):
     game = games[request.args["game_id"]]
     piece = selection["piece"]
+
+    # add a check making sure that player can't set bishop cannon before rook cannon
 
     player = game.players.index(session["player_id"])
     if player is None or game.cannons[piece][player] is not None:
@@ -111,6 +111,12 @@ def initialize_cannon(selection):
 
     if piece == "rook":
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
+
+    if None not in game.cannons['bishop']:
+        game.status = "active"
+        socketio.emit("begin game", room=request.args["game_id"])
+
+
 
 
 @socketio.on("request move")
@@ -136,7 +142,8 @@ def handle_move_request(move):
         socketio.emit("highlight cannon", game.cannons[move_data["cannon type"]][1 - game.whose_turn], room=game_id)
 
     if game.outcome is not None:
-        game.result_message = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
+        game.outcome = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
+        game.status = "inactive"
         socketio.emit("end game", game.outcome, room=game_id)
 
 
@@ -147,6 +154,7 @@ def handle_resignation_request():
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
             game.outcome = f"{game.colors[i - 1]} wins by resignation"
+            game.status = "inactive"
             socketio.emit("end game", game.outcome, room=game_id)
 
 

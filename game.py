@@ -13,6 +13,7 @@ class Game:
         self.messages = []
         self.board = chess.Board()
         self.whose_turn = 0
+        self.status = "inactive"
         self.outcome = None
         self.fen = chess.STARTING_FEN
         self.cannons = {'rook': [None, None], 'bishop': [None, None]}
@@ -20,7 +21,7 @@ class Game:
 
 
     def make_move(self, move_data):
-        if self.board.outcome() is not None:
+        if self.status == "inactive":
             return
         
         from_index = chess.parse_square(move_data["from"])
