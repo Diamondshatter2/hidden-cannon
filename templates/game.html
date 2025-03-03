@@ -48,7 +48,16 @@
     </div>
     <div id="middle_content">
         <div id="board"></div>
-        <button id="resign" {% if player is not none and game.outcome is none%} style="display:block" {% endif %}>Resign</button>
+        <div 
+            id="game_options"
+            {% if player is not none and game.status == "active" %} 
+                style="display:block" 
+            {% endif %}
+        >
+            {% for option in ["resign", "offer draw"] %}
+                <button id={{ option }}>{{ option }}</button>
+            {% endfor %}
+        </div>
         <div id="indicator" {% if game.outcome is not none %} class="result" {% endif %}>
             {% if game.outcome is not none %}
                 {{ game.outcome }}

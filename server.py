@@ -151,11 +151,15 @@ def handle_move_request(move):
 def handle_resignation_request():
     game_id = request.args.get("game_id")
     game = games[game_id]
+    if game.status == "inactive":
+        return
+
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
             game.outcome = f"{game.colors[i - 1]} wins by resignation"
             game.status = "inactive"
             socketio.emit("end game", game.outcome, room=game_id)
+            break
 
 
 @socketio.on("submit message")

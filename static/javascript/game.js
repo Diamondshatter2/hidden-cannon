@@ -68,7 +68,7 @@ socket.on('play move sound', is_capture => {
 
 socket.on('end game', result => {
     notify.play();
-    document.getElementById('resign').style.display = 'none';
+    document.getElementById('game_options').style.display = 'none'; // redundant selection
     indicator.innerHTML = result; 
     indicator.classList.add('result');
 });
