@@ -1,3 +1,7 @@
 1. need detection for check and checkmate
 2. need cannon highlighting
-43 need to remove game link or change its color when both seats are taken
+3. need to remove game link or change its color when both seats are taken
+4. need draw offer button
+5. need to submit new game form on enter key press
+6. need last-move highlighting
+7. need legal moves highlighted on piece click
