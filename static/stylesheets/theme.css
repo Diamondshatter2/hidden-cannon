@@ -28,4 +28,5 @@ a:hover {
 
 .lobby_link:hover {
     background-color: rgba(216, 216, 216, 0.5);
+    text-decoration: none;
 }

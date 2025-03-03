@@ -62,16 +62,13 @@ def create_game(color):
 
     games[game_id] = Game(game_name, session['username']) # second parameter needed?
 
-    if color == "random":
-        color = choice([0, 1])
-    else:
-        color = int(color)
+    color = choice([0, 1]) if color == "random" else int(color)
 
     games[game_id].players[color] = session["player_id"]
     games[game_id].usernames[color] = session["username"]
 
-    socketio.emit("add game to list", { "id": game_id, "name": game_name })
     socketio.emit("redirect to game", game_id, room=request.sid)
+    socketio.emit("add game to list", { "id": game_id, "name": game_name })
 
 
 @socketio.on("connect to game")
@@ -145,6 +142,16 @@ def handle_move_request(move):
         game.outcome = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
         game.status = "inactive"
         socketio.emit("end game", game.outcome, room=game_id)
+
+
+@socketio.on("offer draw")
+def offer_draw():
+    game_id = request.args.get("game_id")
+    game = games[game_id]
+    if game.status == "inactive":
+        return
+    
+    # NEED FUNCTIONALITY HERE
 
 
 @socketio.on("resign")

@@ -55,7 +55,7 @@
             {% endif %}
         >
             {% for option in ["resign", "offer draw"] %}
-                <button id={{ option }}>{{ option }}</button>
+                <button id="{{ option.replace(' ', '_') }}">{{ option }}</button>
             {% endfor %}
         </div>
         <div id="indicator" {% if game.outcome is not none %} class="result" {% endif %}>

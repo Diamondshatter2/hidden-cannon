@@ -5,3 +5,5 @@
 5. need to submit new game form on enter key press
 6. need last-move highlighting
 7. need legal moves highlighted on piece click
+8. should improve 404 page with link back to lobby 
+9. use multiple namespaces for chat/game?

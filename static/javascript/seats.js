@@ -8,8 +8,11 @@ seats_socket.emit('connect to game');
 document.addEventListener('DOMContentLoaded', () => {
     seats = Array.from(document.querySelectorAll('.seat'));
     options = document.getElementById('game_options');
+    // following could be refactored with for-of loop
     resign = document.getElementById('resign');
+    offer_draw = document.getElementById('offer_draw');
 
+    offer_draw.addEventListener('click', () => seats_socket.emit('offer draw'));
     resign.addEventListener('click', () => seats_socket.emit('resign'));
 });
 

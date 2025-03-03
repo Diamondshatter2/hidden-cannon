@@ -38,10 +38,15 @@ body {
 }
 
 #game_options {
+    margin-top: 1vh;
     display: none;
 }
 
-#resign:hover {
+#resign {
+    margin-right: 5vh;
+}
+
+#resign:hover, #offer_draw:hover {
     filter: brightness(0.8);
 }
 
