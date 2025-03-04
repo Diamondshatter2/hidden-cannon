@@ -12,14 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
     resign = document.getElementById('resign');
     offer_draw = document.getElementById('offer_draw');
 
-    offer_draw.addEventListener('click', () => seats_socket.emit('offer draw'));
+    offer_draw.addEventListener('click', () => {
+        seats_socket.emit('offer draw');
+        alert('Sorry, this feature is still in development.');
+    });
     resign.addEventListener('click', () => seats_socket.emit('resign'));
 });
 
 seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 
-seats_socket.on('change player view', seat_number => {
-    if (seat_number == 1) {
+seats_socket.on('flip board', seat_number => {
+    if (seat_number == 1) { // this should probably be moved to server
         board.orientation('black');
     }
 });

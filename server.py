@@ -82,7 +82,7 @@ def connect_to_game():
             game.usernames[seat_number] = session["username"]
 
             socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
-            socketio.emit("change player view", seat_number, room=request.sid)
+            socketio.emit("flip board", seat_number, room=request.sid) 
             socketio.emit("offer cannon selection", "rook", room=request.sid)
 
             break
@@ -150,6 +150,7 @@ def offer_draw():
     game = games[game_id]
     if game.status == "inactive":
         return
+
     
     # NEED FUNCTIONALITY HERE
 

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     indicator = document.getElementById('indicator');
     
     board = Chessboard('board', {
-        orientation: (player == 0 || player == 'None' ? 'white' : 'black'),
+        orientation: (player == 1 ? 'black' : 'white'),
         draggable: true,
         dropOffBoard: 'snapback',
         position: fen,
