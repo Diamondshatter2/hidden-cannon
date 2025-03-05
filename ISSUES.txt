@@ -1,9 +1,11 @@
-1. need detection for check and checkmate
-2. need cannon highlighting
-3. need to remove game link or change its color when both seats are taken
-4. draw offer button needs functionality
-5. need to submit new game form on enter key press
-6. need last-move highlighting
-7. need legal moves highlighted on piece click
-8. should improve 404 page with link back to lobby 
-9. use multiple namespaces for chat/game?
+1. need detection for check and checkmate (MAJOR)
+2. need cannon highlighting (SEMI-MAJOR)
+3. need to remove game link or change its color when both seats are taken (MINOR)
+4. draw offer button needs functionality (SEMI-MAJOR)
+5. need to submit new game form on enter key press (MINOR)
+6. need last-move highlighting (MINOR)
+7. need legal moves highlighted on piece click (MINOR, DEPENDS ON 1)
+8. should improve 404 page with link back to lobby (VERY MINOR)
+9. use multiple namespaces for chat/game? (VERY MINOR)
+10. need pawn promotion (MAJOR)
+11. need draw detection (MAJOR)

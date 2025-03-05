@@ -11,3 +11,7 @@
 .cannon {
     transform: rotate(45deg);
 }
+
+.last-move {
+    background-color: rgba(255, 255, 0, 0.5); /* For future use */
+}

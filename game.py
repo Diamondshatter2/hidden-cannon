@@ -16,13 +16,15 @@ class Game:
         self.status = "inactive"
         self.outcome = None
         self.fen = chess.STARTING_FEN
-        self.cannons = {'rook': [None, None], 'bishop': [None, None]}
-        self.is_revealed = {'rook': [False, False], 'bishop': [False, False]}
+        self.cannons = { 'rook': [None, None], 'bishop': [None, None] }
+        self.is_revealed = { 'rook': [False, False], 'bishop': [False, False] }
 
 
     def make_move(self, move_data):
         if self.status == "inactive":
             return
+        
+        # if move leaves player in check, return
         
         from_index = chess.parse_square(move_data["from"])
         to_index = chess.parse_square(move_data["to"])
@@ -88,13 +90,21 @@ class Game:
         
 
     def push_move(self, move, cannon_type, is_capture="false"):
-        self.board.push(move) 
-        self.fen = self.board.fen()
+        board_copy = self.board.copy()
+        board_copy.push(move)
+        board_copy_fen = board_copy.fen()
+        opponent = 1 - self.whose_turn
+
+        if self.is_check(board_copy_fen, opponent):
+            return
+
+        self.board = board_copy
+        self.fen = board_copy_fen
 
         if cannon_type:
             self.cannons[cannon_type][self.whose_turn] = chess.square_name(move.to_square) # refactor cannons to use indices
 
-        self.whose_turn = 1 - self.whose_turn # Toggle between 0 and 1
+        self.whose_turn = opponent
 
         for type in ['rook', 'bishop']:
             if chess.square_name(move.to_square) == self.cannons[type][self.whose_turn]:
@@ -102,4 +112,15 @@ class Game:
 
         print(self.cannons)
     
-        return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type}
+        return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type, "is-mate": self.is_checkmate()}
+    
+
+    def is_check(self, fen, color): # does this need to be a class method?
+        return False # placeholder
+    
+
+    def is_checkmate(self):
+        if not self.is_check(self.fen, self.whose_turn):
+            return
+        
+        # see if every move is check

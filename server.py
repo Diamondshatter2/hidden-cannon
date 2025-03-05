@@ -1,7 +1,5 @@
-from flask import Flask, session, render_template, request
-from flask_socketio import SocketIO, join_room
-from uuid import uuid4 as generate_id; from secrets import token_hex
-from random import choice
+from flask import Flask, session, render_template, request; from flask_socketio import SocketIO, join_room
+from uuid import uuid4 as generate_id; from secrets import token_hex; from random import choice
 from game import Game
 
 app = Flask(__name__)
@@ -88,7 +86,6 @@ def connect_to_game():
             break
 
 
-
 @socketio.on("select cannon")
 def initialize_cannon(selection):
     game = games[request.args["game_id"]]
@@ -112,8 +109,6 @@ def initialize_cannon(selection):
     if None not in game.cannons['bishop']:
         game.status = "active"
         socketio.emit("begin game", room=request.args["game_id"])
-
-
 
 
 @socketio.on("request move")

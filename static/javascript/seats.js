@@ -31,7 +31,7 @@ seats_socket.on('flip board', seat_number => {
 seats_socket.on('offer cannon selection', piece => offer_cannon_selection(piece)); // redundant syntax?
 
 seats_socket.on('highlight cannon', square => {
-    document.querySelector('.square-' + square).querySelector('img').classList.add('cannon');   
+    // document.querySelector('.square-' + square).querySelector('img').classList.add('cannon');   
 });
 
 seats_socket.on('begin game', () => {
