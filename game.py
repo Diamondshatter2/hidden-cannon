@@ -24,8 +24,6 @@ class Game:
         if self.status == "inactive":
             return
         
-        # if move leaves player in check, return
-        
         from_index = chess.parse_square(move_data["from"])
         to_index = chess.parse_square(move_data["to"])
 
@@ -40,16 +38,14 @@ class Game:
             cannon_type = None
 
         if cannon_type and is_capture:
-            return self.make_cannon_move(move_data, cannon_type)
+            return self.make_cannon_move(from_index, to_index, cannon_type)
 
         move = chess.Move(from_index, to_index) 
         if move in self.board.pseudo_legal_moves:  
             return self.push_move(move, cannon_type, is_capture=is_capture)
     
 
-    def make_cannon_move(self, move_data, cannon_type):
-        from_index = chess.parse_square(move_data["from"])
-        to_index = chess.parse_square(move_data["to"])
+    def make_cannon_move(self, from_index, to_index, cannon_type):
         difference = to_index - from_index 
         step_sign = sign(difference)
 
