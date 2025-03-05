@@ -1,4 +1,4 @@
-import chess
+import chess # need whole thing?
 from numpy import sign
 
 
@@ -28,14 +28,13 @@ class Game:
         if not move:
             return
         
-        move, cannon_type, is_capture = move
+        move, cannon_type, is_capture = move # need to overhaul variable names obviously
         
         board_copy = self.board.copy()
         board_copy.push(move)
         board_copy_fen = board_copy.fen()
-        opponent = 1 - self.whose_turn
 
-        if self.is_check(board_copy_fen, opponent):
+        if self.is_check(board_copy_fen, self.whose_turn):
             return
 
         self.board = board_copy
@@ -44,7 +43,7 @@ class Game:
         if cannon_type:
             self.cannons[cannon_type][self.whose_turn] = chess.square_name(move.to_square) # refactor cannons to use indices
 
-        self.whose_turn = opponent
+        self.whose_turn = 1 - self.whose_turn
 
         for type in ['rook', 'bishop']:
             if chess.square_name(move.to_square) == self.cannons[type][self.whose_turn]:
@@ -73,7 +72,7 @@ class Game:
             return self.is_pseudo_legal_cannon_move(from_index, to_index, cannon_type)
 
         move = chess.Move(from_index, to_index) 
-        if move in self.board.pseudo_legal_moves:  
+        if move in self.board.pseudo_legal_moves:  # this is the problem line
             return (move, cannon_type, is_capture)
     
 
@@ -106,7 +105,14 @@ class Game:
         
 
     def is_check(self, fen, color): # does this need to be a class method?
-        return False # placeholder
+        moves = [{"from": source, "to": destination} for source in chess.SQUARE_NAMES for destination in chess.SQUARE_NAMES]
+
+        # Unfortunately python-chess encodes Black and White in the opposite way from the Hidden Cannon app
+        for move in (move for move in moves if chess.parse_square(move["to"]) == self.board.king(1 - color)):
+            if self.is_HC_pseudo_legal(move):
+                return True
+
+        return False
 
 
     def is_checkmate(self):
