@@ -112,7 +112,7 @@ def initialize_cannon(selection):
 
 
 @socketio.on("request move")
-def handle_move_request(move): 
+def handle_move_request(move): # switch move and move_data variable names
     game_id = request.args.get("game_id")
     if game_id not in games:
         return
@@ -122,7 +122,7 @@ def handle_move_request(move):
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
     
-    move_data = game.make_move(move)
+    move_data = game.process_move_request(move)
     if not move_data:
         socketio.emit("update board state", game.board.fen(), room=request.sid)
         return
