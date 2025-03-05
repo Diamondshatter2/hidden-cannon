@@ -39,11 +39,8 @@ class Game:
         else:
             cannon_type = None
 
-        if cannon_type == "rook" and is_capture:
-            return self.make_rook_cannon_move(move_data)
-        
-        if cannon_type == "bishop" and is_capture:
-            return self.make_bishop_cannon_move(move_data)
+        if cannon_type and is_capture:
+            return self.make_cannon_move(move_data, cannon_type)
 
         move = chess.Move(from_index, to_index) 
         if move in self.board.pseudo_legal_moves:  
@@ -124,3 +121,31 @@ class Game:
             return
         
         # see if every move is check
+
+
+    def make_cannon_move(self, move_data, cannon_type):
+        from_index = chess.parse_square(move_data["from"])
+        to_index = chess.parse_square(move_data["to"])
+        difference = to_index - from_index 
+        step_sign = sign(difference)
+
+        if cannon_type == "rook":
+            if difference % 8 == 0:
+                step = 8 * step_sign
+            elif to_index // 8 == from_index // 8:
+                step = step_sign
+    
+        elif cannon_type == "bishop":
+            for i in [7, 9]:
+                if difference % i == 0:
+                    step = i * step_sign
+                    break
+            else:
+                return
+            
+        path_to_target = list(range(from_index + step, to_index, step))
+        pieces_between = [self.board.piece_at(square) for square in path_to_target]
+
+        if len([piece for piece in pieces_between if piece is not None]) == 1:
+            move = chess.Move(from_index, to_index)
+            return self.push_move(move, cannon_type, is_capture=True)
