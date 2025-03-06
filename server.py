@@ -167,7 +167,7 @@ def handle_resignation_request():
 
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
-            game.state.outcome = f"{game.colors[i - 1]} wins by resignation"
+            game.state.outcome = f"{game.state.colors[i - 1]} wins by resignation"
             game.state.status = "inactive"
             socketio.emit("end game", game.state.outcome, room=game_id)
             break

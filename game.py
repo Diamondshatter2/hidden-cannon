@@ -7,10 +7,10 @@ class Game_state:
     
     def __init__(self, fen=chess.STARTING_FEN):
         self.board = chess.Board(fen=fen)
-        self.whose_turn = 0
         self.status = "inactive"
+        self.whose_turn = 0
         self.outcome = None
-        self.fen = chess.STARTING_FEN
+        self.fen = fen
         self.cannons = { 'rook': [None, None], 'bishop': [None, None] }
         self.is_revealed = { 'rook': [False, False], 'bishop': [False, False] }
 
@@ -70,7 +70,7 @@ class Game_state:
             return self.is_pseudo_legal_cannon_move(from_index, to_index, cannon_type)
 
         move = chess.Move(from_index, to_index) 
-        if move in self.board.pseudo_legal_moves:  # this is the problem line
+        if move in self.board.pseudo_legal_moves: 
             return (move, cannon_type, is_capture)
     
 
@@ -115,9 +115,7 @@ class Game_state:
 
     def is_checkmate(self):
         if not self.is_check(self.whose_turn):
-            return
-        
-        # see if every move is check
+            return False # placeholder
 
 
 
