@@ -34,7 +34,7 @@ class Game:
         board_copy.push(move)
         board_copy_fen = board_copy.fen()
 
-        if self.is_check(board_copy_fen, self.whose_turn):
+        if self.is_check(self.whose_turn, fen=board_copy_fen):
             return
 
         self.board = board_copy
@@ -54,7 +54,7 @@ class Game:
         return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type, "is-mate": self.is_checkmate()}
     
 
-    def is_HC_pseudo_legal(self, move_data):
+    def is_HC_pseudo_legal(self, move_data, fen=None):
         from_index = chess.parse_square(move_data["from"])
         to_index = chess.parse_square(move_data["to"])
 
@@ -104,15 +104,15 @@ class Game:
             return (move, cannon_type, True)
         
 
-    def is_check(self, fen, color): # does this need to be a class method?
-        moves = [{"from": source, "to": destination} for source in chess.SQUARE_NAMES for destination in chess.SQUARE_NAMES]
+    def is_check(self, color, fen=None): # does this need to be a class method?
 
+        moves = [{"from": source, "to": destination} for source in chess.SQUARE_NAMES for destination in chess.SQUARE_NAMES]
         # Unfortunately python-chess encodes Black and White in the opposite way from the Hidden Cannon app
-        for move in (move for move in moves if chess.parse_square(move["to"]) == self.board.king(1 - color)):
+        king_square =  self.board.king(1 - color); 
+
+        for move in (move for move in moves if chess.parse_square(move["to"]) == king_square):
             if self.is_HC_pseudo_legal(move):
                 return True
-
-        return False
 
 
     def is_checkmate(self):
