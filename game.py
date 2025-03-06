@@ -2,22 +2,21 @@ import chess # need whole thing?
 from numpy import sign
 
 
-class Game:
+class Game_state:
     colors = ["White", "Black"]
     
-    def __init__(self, name, creator):
-        self.name = name
-        self.creator = creator
-        self.players = [None, None]
-        self.usernames = [None, None]
-        self.messages = []
-        self.board = chess.Board()
+    def __init__(self, fen=chess.STARTING_FEN):
+        self.board = chess.Board(fen=fen)
         self.whose_turn = 0
         self.status = "inactive"
         self.outcome = None
         self.fen = chess.STARTING_FEN
         self.cannons = { 'rook': [None, None], 'bishop': [None, None] }
         self.is_revealed = { 'rook': [False, False], 'bishop': [False, False] }
+
+
+    def copy(self):
+        return Game_state(fen=self.fen)
 
 
     def process_move_request(self, move_data):
@@ -30,15 +29,14 @@ class Game:
         
         move, cannon_type, is_capture = move # need to overhaul variable names obviously
         
-        board_copy = self.board.copy()
-        board_copy.push(move)
-        board_copy_fen = board_copy.fen()
+        game_copy = self.copy()
+        game_copy.board.push(move)
 
-        if self.is_check(self.whose_turn, fen=board_copy_fen):
+        if game_copy.is_check(self.whose_turn):
             return
 
-        self.board = board_copy
-        self.fen = board_copy_fen
+        self.board = game_copy.board
+        self.fen = self.board.fen()
 
         if cannon_type:
             self.cannons[cannon_type][self.whose_turn] = chess.square_name(move.to_square) # refactor cannons to use indices
@@ -54,7 +52,7 @@ class Game:
         return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type, "is-mate": self.is_checkmate()}
     
 
-    def is_HC_pseudo_legal(self, move_data, fen=None):
+    def is_HC_pseudo_legal(self, move_data):
         from_index = chess.parse_square(move_data["from"])
         to_index = chess.parse_square(move_data["to"])
 
@@ -104,7 +102,7 @@ class Game:
             return (move, cannon_type, True)
         
 
-    def is_check(self, color, fen=None): # does this need to be a class method?
+    def is_check(self, color): # does this need to be a class method?
 
         moves = [{"from": source, "to": destination} for source in chess.SQUARE_NAMES for destination in chess.SQUARE_NAMES]
         # Unfortunately python-chess encodes Black and White in the opposite way from the Hidden Cannon app
@@ -116,7 +114,7 @@ class Game:
 
 
     def is_checkmate(self):
-        if not self.is_check(self.fen, self.whose_turn):
+        if not self.is_check(self.whose_turn):
             return
         
         # see if every move is check

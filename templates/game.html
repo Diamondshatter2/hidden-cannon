@@ -11,13 +11,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='javascript/chessboard-1.0.0.js') }}" type="text/javascript"></script>
     {% if player is not none %}
-        {% set rook_cannon = game.cannons["rook"][player] %}
-        {% set bishop_cannon = game.cannons["bishop"][player] %}
+        {% set rook_cannon = game.state.cannons["rook"][player] %}
+        {% set bishop_cannon = game.state.cannons["bishop"][player] %}
     {% else %}
         {% set rook_cannon = none %} {% set bishop_cannon = none %}
     {% endif %}
     <script>
-        const fen = "{{ game.fen }}";
+        const fen = "{{ game.state.fen }}";
         const player = "{{ player }}";
         let rook_cannon = "{{ rook_cannon }}", bishop_cannon = "{{ bishop_cannon }}";
     </script>
@@ -50,7 +50,7 @@
         <div id="board"></div>
         <div 
             id="game_options"
-            {% if player is not none and game.status == "active" %} 
+            {% if player is not none and game.state.status == "active" %} 
                 style="display:block" 
             {% endif %}
         >
@@ -58,9 +58,9 @@
                 <button id="{{ option.replace(' ', '_') }}">{{ option }}</button>
             {% endfor %}
         </div>
-        <div id="indicator" {% if game.outcome is not none %} class="result" {% endif %}>
-            {% if game.outcome is not none %}
-                {{ game.outcome }}
+        <div id="indicator" {% if game.state.outcome is not none %} class="result" {% endif %}>
+            {% if game.state.outcome is not none %}
+                {{ game.state.outcome }}
             {% endif %}
         </div>
     </div>

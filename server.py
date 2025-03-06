@@ -1,12 +1,20 @@
 from flask import Flask, session, render_template, request; from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex; from random import choice
-from game import Game
+from game import Game_state
 
+class Game:
+    def __init__(self, name, creator):
+        self.name = name
+        self.creator = creator
+        self.players = [None, None]
+        self.usernames = [None, None]
+        self.messages = []
+        self.state = Game_state()
+        
 app = Flask(__name__)
 app.secret_key = token_hex(32) 
 socketio = SocketIO(app, async_mode="eventlet")
 games = {}
-
 
 @app.before_request
 def assign_player_id_and_username():
@@ -94,20 +102,20 @@ def initialize_cannon(selection):
     # add a check making sure that player can't set bishop cannon before rook cannon
 
     player = game.players.index(session["player_id"])
-    if player is None or game.cannons[piece][player] is not None:
+    if player is None or game.state.cannons[piece][player] is not None:
         return
     
     positions = {"Q": "a", "K": "h"} if piece == "rook" else {"Q": "c", "K": "f"}            
-    game.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
-    print(game.cannons) # debugging
+    game.state.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
+    print(game.state.cannons) # debugging
 
-    socketio.emit("highlight cannon", game.cannons[piece][player], room=request.sid)
+    socketio.emit("highlight cannon", game.state.cannons[piece][player], room=request.sid)
 
     if piece == "rook":
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
 
-    if None not in game.cannons['bishop']:
-        game.status = "active"
+    if None not in game.state.cannons['bishop']:
+        game.state.status = "active"
         socketio.emit("begin game", room=request.args["game_id"])
 
 
@@ -118,32 +126,32 @@ def handle_move_request(move): # switch move and move_data variable names
         return
 
     game = games[game_id]
-    if game.players[game.whose_turn] != session["player_id"] or None in game.players:
-        socketio.emit("update board state", game.board.fen(), room=request.sid)
+    if game.players[game.state.whose_turn] != session["player_id"] or None in game.players:
+        socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     
-    move_data = game.process_move_request(move)
+    move_data = game.state.process_move_request(move)
     if not move_data:
-        socketio.emit("update board state", game.board.fen(), room=request.sid)
+        socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     
     new_board_state = move_data["fen"]
     socketio.emit("play move sound", move_data["is capture"], room=game_id)
     socketio.emit("update board state", new_board_state, room=game_id)
     if move_data["cannon type"] is not None:
-        socketio.emit("highlight cannon", game.cannons[move_data["cannon type"]][1 - game.whose_turn], room=game_id)
+        socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.whose_turn], room=game_id)
 
-    if game.outcome is not None:
-        game.outcome = "Draw" if game.outcome == 'draw' else f"{session['username']} wins"
-        game.status = "inactive"
-        socketio.emit("end game", game.outcome, room=game_id)
+    if game.state.outcome is not None:
+        game.state.outcome = "Draw" if game.state.outcome == 'draw' else f"{session['username']} wins"
+        game.state.status = "inactive"
+        socketio.emit("end game", game.state.outcome, room=game_id)
 
 
 @socketio.on("offer draw")
 def offer_draw():
     game_id = request.args.get("game_id")
     game = games[game_id]
-    if game.status == "inactive":
+    if game.state.status == "inactive":
         return
 
     
@@ -154,14 +162,14 @@ def offer_draw():
 def handle_resignation_request():
     game_id = request.args.get("game_id")
     game = games[game_id]
-    if game.status == "inactive":
+    if game.state.status == "inactive":
         return
 
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
-            game.outcome = f"{game.colors[i - 1]} wins by resignation"
-            game.status = "inactive"
-            socketio.emit("end game", game.outcome, room=game_id)
+            game.state.outcome = f"{game.colors[i - 1]} wins by resignation"
+            game.state.status = "inactive"
+            socketio.emit("end game", game.state.outcome, room=game_id)
             break
 
 
