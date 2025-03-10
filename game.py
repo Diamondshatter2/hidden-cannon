@@ -1,80 +1,74 @@
-import chess # need whole thing?
+from chess import Board, Move, square_name, parse_square
+from copy import deepcopy as copy
 from numpy import sign
 
-
 class Game_state:
-    colors = ["White", "Black"]
-    
-    def __init__(self, fen=chess.STARTING_FEN):
-        self.board = chess.Board(fen=fen)
-        self.status = "inactive"
-        self.whose_turn = 0
+    colors = ["Black", "White"]
+
+
+    def __init__(self):
+        self.board = Board()
+        self.is_active = False
         self.outcome = None
-        self.fen = fen
-        self.cannons = { 'rook': [None, None], 'bishop': [None, None] }
-        self.is_revealed = { 'rook': [False, False], 'bishop': [False, False] }
+        self.cannons = {"rook": [None, None], "bishop": [None, None]}
+        self.is_revealed = {"rook": [False, False], "bishop": [False, False]}
 
 
-    def copy(self):
-        return Game_state(fen=self.fen)
-
-
-    def process_move_request(self, move_data):
-        if self.status == "inactive":
+    def handle_move_request(self, from_square, to_square):
+        if not self.is_active:
             return
         
-        move = self.is_HC_pseudo_legal(move_data)
-        if not move:
+        try:
+            move, cannon_type, is_capture = self.move_data(from_square, to_square)
+        except TypeError:
+            return 
+        
+        game_state_copy = copy(self)
+        game_state_copy.board.push(move) 
+        if game_state_copy.is_in_check(self.board.turn):
             return
         
-        move, cannon_type, is_capture = move # need to overhaul variable names obviously
-        
-        game_copy = self.copy()
-        game_copy.board.push(move)
-
-        if game_copy.is_check(self.whose_turn):
-            return
-
-        self.board = game_copy.board
-        self.fen = self.board.fen()
+        to_square_name = square_name(move.to_square)
 
         if cannon_type:
-            self.cannons[cannon_type][self.whose_turn] = chess.square_name(move.to_square) # refactor cannons to use indices
-
-        self.whose_turn = 1 - self.whose_turn
-
+            self.cannons[cannon_type][self.board.turn] = to_square_name
+        
         for type in ['rook', 'bishop']:
-            if chess.square_name(move.to_square) == self.cannons[type][self.whose_turn]:
-                self.cannons[type][self.whose_turn] = None
+            if to_square_name == self.cannons[type][not self.board.turn]:
+                self.cannons[type][not self.board.turn] = None
 
-        print(self.cannons)
-    
-        return {"fen": self.fen, "is capture": is_capture, "cannon type": cannon_type, "is-mate": self.is_checkmate()}
-    
+        self.board = game_state_copy.board
 
-    def is_HC_pseudo_legal(self, move_data):
-        from_index = chess.parse_square(move_data["from"])
-        to_index = chess.parse_square(move_data["to"])
+        return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type}
+ 
+
+    def move_data(self, from_square, to_square):
+        from_index = parse_square(from_square)
+        to_index = parse_square(to_square)
 
         target_piece = self.board.piece_at(to_index)
-        is_capture = (target_piece is not None and target_piece.color != self.board.turn)
+        is_capture = (target_piece and target_piece.color != self.board.turn)
 
         for type in ['rook', 'bishop']:
-            if move_data["from"] in self.cannons[type]:
+            if from_square == self.cannons[type][self.board.turn]:
                 cannon_type = type
                 break
         else:
             cannon_type = None
 
+        move = Move(from_index, to_index) 
+
         if cannon_type and is_capture:
-            return self.is_pseudo_legal_cannon_move(from_index, to_index, cannon_type)
+            if not self.is_proper_cannon_move(from_index, to_index, cannon_type):
+                return
+        else:
+            if move not in self.board.pseudo_legal_moves:
+                return
 
-        move = chess.Move(from_index, to_index) 
-        if move in self.board.pseudo_legal_moves: 
-            return (move, cannon_type, is_capture)
-    
+        return (move, cannon_type, is_capture)
 
-    def is_pseudo_legal_cannon_move(self, from_index, to_index, cannon_type):
+
+    def is_proper_cannon_move(self, from_index, to_index, cannon_type):
         difference = to_index - from_index 
         step_sign = sign(difference)
 
@@ -84,7 +78,7 @@ class Game_state:
             elif to_index // 8 == from_index // 8:
                 step = step_sign
             else:
-                return
+                return False
     
         elif cannon_type == "bishop":
             for i in [7, 9]:
@@ -92,31 +86,15 @@ class Game_state:
                     step = i * step_sign
                     break
             else:
-                return
+                return False
             
         path_to_target = list(range(from_index + step, to_index, step))
         pieces_between = [self.board.piece_at(square) for square in path_to_target]
 
-        if len([piece for piece in pieces_between if piece is not None]) == 1:
-            move = chess.Move(from_index, to_index)
-            return (move, cannon_type, True)
+        return (len([piece for piece in pieces_between if piece is not None]) == 1)
+
+
+    def is_in_check(self, color):
+        return False # placeholder
+            
         
-
-    def is_check(self, color): # does this need to be a class method?
-
-        moves = [{"from": source, "to": destination} for source in chess.SQUARE_NAMES for destination in chess.SQUARE_NAMES]
-        # Unfortunately python-chess encodes Black and White in the opposite way from the Hidden Cannon app
-        king_square =  self.board.king(1 - color); 
-
-        for move in (move for move in moves if chess.parse_square(move["to"]) == king_square):
-            if self.is_HC_pseudo_legal(move):
-                return True
-
-
-    def is_checkmate(self):
-        if not self.is_check(self.whose_turn):
-            return False # placeholder
-
-
-
-

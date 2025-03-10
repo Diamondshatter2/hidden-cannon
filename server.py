@@ -106,8 +106,7 @@ def initialize_cannon(selection):
         return
     
     positions = {"Q": "a", "K": "h"} if piece == "rook" else {"Q": "c", "K": "f"}            
-    game.state.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 0 else "8")
-    print(game.state.cannons) # debugging
+    game.state.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 1 else "8")
 
     socketio.emit("highlight cannon", game.state.cannons[piece][player], room=request.sid)
 
@@ -115,7 +114,7 @@ def initialize_cannon(selection):
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
 
     if None not in game.state.cannons['bishop']:
-        game.state.status = "active"
+        game.state.is_active = True
         socketio.emit("begin game", room=request.args["game_id"])
 
 
@@ -126,24 +125,23 @@ def handle_move_request(move): # switch move and move_data variable names
         return
 
     game = games[game_id]
-    if game.players[game.state.whose_turn] != session["player_id"] or None in game.players:
+    if game.players[game.state.board.turn] != session["player_id"] or None in game.players:
         socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     
-    move_data = game.state.process_move_request(move)
+    move_data = game.state.handle_move_request(move["from"], move["to"])
     if not move_data:
         socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     
-    new_board_state = move_data["fen"]
     socketio.emit("play move sound", move_data["is capture"], room=game_id)
-    socketio.emit("update board state", new_board_state, room=game_id)
+    socketio.emit("update board state", move_data["fen"], room=game_id)
     if move_data["cannon type"] is not None:
-        socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.whose_turn], room=game_id)
+        socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.board.turn], room=game_id)
 
     if game.state.outcome is not None:
         game.state.outcome = "Draw" if game.state.outcome == 'draw' else f"{session['username']} wins"
-        game.state.status = "inactive"
+        game.state.is_active = True
         socketio.emit("end game", game.state.outcome, room=game_id)
 
 
@@ -151,7 +149,7 @@ def handle_move_request(move): # switch move and move_data variable names
 def offer_draw():
     game_id = request.args.get("game_id")
     game = games[game_id]
-    if game.state.status == "inactive":
+    if not game.state.is_active:
         return
 
     
@@ -162,13 +160,13 @@ def offer_draw():
 def handle_resignation_request():
     game_id = request.args.get("game_id")
     game = games[game_id]
-    if game.state.status == "inactive":
+    if not game.state.is_active:
         return
 
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
             game.state.outcome = f"{game.state.colors[i - 1]} wins by resignation"
-            game.state.status = "inactive"
+            game.state.is_active == False
             socketio.emit("end game", game.state.outcome, room=game_id)
             break
 

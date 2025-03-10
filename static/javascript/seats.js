@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 
 seats_socket.on('flip board', seat_number => {
-    if (seat_number == 1) { // this should probably be moved to server
+    if (seat_number == 0) { // this should probably be moved to server
         board.orientation('black');
     }
 });
