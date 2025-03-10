@@ -27,7 +27,7 @@ def assign_player_id_and_username():
             session["username"] = new_username + session["username"][-7:]
 
 
-@app.route("/", methods=['GET', 'POST']) 
+@app.route("/", methods=["GET", "POST"]) 
 def serve_lobby():
     return render_template("lobby.html", games=games, username=session["username"])
 
@@ -37,7 +37,7 @@ def serve_rules():
     return render_template("rules.html", username=session["username"])
 
 
-@app.route("/play", methods=['GET', 'POST'])
+@app.route("/play", methods=["GET", "POST"])
 def serve_game(): 
     try:
         game = games[request.args["game_id"]]
@@ -64,9 +64,9 @@ def add_connection_to_room():
 def create_game(color):
     game_id = str(generate_id())
 
-    game_name = f"Game by {session['username']}"
+    game_name = f"Game by {session["username"]}"
 
-    games[game_id] = Game(game_name, session['username']) # second parameter needed?
+    games[game_id] = Game(game_name, session["username"]) # second parameter needed?
 
     color = choice([0, 1]) if color == "random" else int(color)
 
@@ -113,7 +113,7 @@ def initialize_cannon(selection):
     if piece == "rook":
         socketio.emit("offer cannon selection", "bishop", room=request.sid)
 
-    if None not in game.state.cannons['bishop']:
+    if None not in game.state.cannons["bishop"]:
         game.state.is_active = True
         socketio.emit("begin game", room=request.args["game_id"])
 
@@ -140,7 +140,7 @@ def handle_move_request(move): # switch move and move_data variable names
         socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.board.turn], room=game_id)
 
     if game.state.outcome is not None:
-        game.state.outcome = "Draw" if game.state.outcome == 'draw' else f"{session['username']} wins"
+        game.state.outcome = "Draw" if game.state.outcome == "draw" else f"{session["username"]} wins"
         game.state.is_active = True
         socketio.emit("end game", game.state.outcome, room=game_id)
 
