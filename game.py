@@ -35,7 +35,7 @@ class Game_state:
             if not self.is_revealed[cannon_type][self.board.turn]: # Technically unnecessary conditional
                 self.is_revealed[cannon_type][self.board.turn] = True
         
-        for type in ['rook', 'bishop']:
+        for type in ["rook", "bishop"]:
             if to_square_name == self.cannons[type][not self.board.turn]:
                 self.cannons[type][not self.board.turn] = None
 
@@ -51,7 +51,7 @@ class Game_state:
         target_piece = self.board.piece_at(to_index)
         is_capture = (target_piece and target_piece.color != self.board.turn)
 
-        for type in ['rook', 'bishop']:
+        for type in ["rook", "bishop"]:
             if from_square == self.cannons[type][self.board.turn]:
                 cannon_type = type
                 break
