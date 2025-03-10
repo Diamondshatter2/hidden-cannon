@@ -61,7 +61,7 @@ class Game_state:
         move = Move(from_index, to_index) 
 
         if cannon_type and is_capture:
-            if not self.is_proper_cannon_move(from_index, to_index, cannon_type):
+            if not self.is_proper_cannon_capture(from_index, to_index, cannon_type):
                 return
         else:
             if move not in self.board.pseudo_legal_moves:
@@ -70,7 +70,7 @@ class Game_state:
         return (move, cannon_type, is_capture)
 
 
-    def is_proper_cannon_move(self, from_index, to_index, cannon_type):
+    def is_proper_cannon_capture(self, from_index, to_index, cannon_type):
         difference = to_index - from_index 
         step_sign = sign(difference)
 
