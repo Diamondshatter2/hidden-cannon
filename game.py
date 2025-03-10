@@ -98,5 +98,3 @@ class Game_state:
 
     def is_in_check(self, color):
         return False # placeholder
-            
-        
