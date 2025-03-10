@@ -32,6 +32,8 @@ class Game_state:
 
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
+            if not self.is_revealed[cannon_type][self.board.turn]: # Technically unnecessary conditional
+                self.is_revealed[cannon_type][self.board.turn] = True
         
         for type in ['rook', 'bishop']:
             if to_square_name == self.cannons[type][not self.board.turn]:
