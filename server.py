@@ -125,7 +125,7 @@ def handle_move_request(move): # switch move and move_data variable names
         return
 
     game = games[game_id]
-    if game.players[game.state.board.turn] != session["player_id"] or None in game.players:
+    if game.players[game.state.board.turn] != session["player_id"]:
         socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     

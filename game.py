@@ -1,4 +1,4 @@
-from chess import Board, Move, square_name, parse_square
+from chess import Board, Move, square_name, parse_square, SQUARES 
 from copy import deepcopy as copy
 from numpy import sign
 
@@ -32,7 +32,7 @@ class Game_state:
 
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
-            if not self.is_revealed[cannon_type][self.board.turn]: # Technically unnecessary conditional
+            if is_capture and not self.is_revealed[cannon_type][self.board.turn]: # Second condition technically unnecessary 
                 self.is_revealed[cannon_type][self.board.turn] = True
         
         for type in ["rook", "bishop"]:
@@ -93,8 +93,27 @@ class Game_state:
         path_to_target = list(range(from_index + step, to_index, step))
         pieces_between = [self.board.piece_at(square) for square in path_to_target]
 
-        return (len([piece for piece in pieces_between if piece is not None]) == 1)
+        return (len([piece for piece in pieces_between if piece]) == 1)
 
 
     def is_in_check(self, color):
-        return False # placeholder
+        swap = (self.board.turn == color)
+        if swap:
+            self.board.turn = not self.board.turn
+
+        occupied_squares = [square for square in SQUARES if self.board.piece_at(square)]
+        enemy_occupied_squares = [square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn]
+        king_square = square_name(self.board.king(color))
+
+        for square in enemy_occupied_squares:
+            if self.move_data(square_name(square), king_square):
+                check = True
+                break
+        else:
+            check = False
+                
+        if swap:
+            self.board.turn = not self.board.turn
+        
+        return check
+
