@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pieceTheme: '/static/images/{piece}.png',
 
         onDrop: (source, target) => {
-            if (source != target) {
+            if (source != target && target != 'offboard') {
                 socket.emit('request move', { from: source, to: target });
             }
         }

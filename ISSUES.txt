@@ -9,3 +9,4 @@
 9. use multiple namespaces for chat/game? (VERY MINOR)
 10. need pawn promotion (MAJOR)
 11. need draw detection (MAJOR)
+12. grant_seat not properly changing seat text (MINOR)
