@@ -82,13 +82,14 @@ def connect_to_game():
     game_id = request.args.get("game_id")
     game = games[game_id]
 
-    for seat_number in [0, 1]:
-        if game.players[seat_number] is None and session["player_id"] not in game.players:
-            game.players[seat_number] = session["player_id"]
-            game.usernames[seat_number] = session["username"]
+    for player in [0, 1]:
+        if game.players[player] is None and session["player_id"] not in game.players:
+            game.players[player] = session["player_id"]
+            game.usernames[player] = session["username"]
 
-            socketio.emit("grant seat", { "number": seat_number, "user": session["username"] }, room=game_id) 
-            socketio.emit("flip board", seat_number, room=request.sid) 
+            # Seat number is opposite of player number because seats are displayed as "White: <username>, "Black: <username>"
+            socketio.emit("grant seat", { "number": 1 - player, "user": session["username"] }, room=game_id) 
+            socketio.emit("flip board", player, room=request.sid) 
             socketio.emit("offer cannon selection", "rook", room=request.sid)
 
             break

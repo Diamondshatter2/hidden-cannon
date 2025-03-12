@@ -35,6 +35,6 @@ seats_socket.on('highlight cannon', square => {
 });
 
 seats_socket.on('begin game', () => {
-    notify.play();
+    notify.play(); // this will only play for players 
     options.style.display = 'block';
 });
