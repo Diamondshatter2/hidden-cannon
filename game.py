@@ -1,4 +1,4 @@
-from chess import Board, Move, square_name, parse_square, SQUARES 
+from chess import Board, Move, square_name, parse_square, SQUARES, KING
 from copy import deepcopy as copy
 from numpy import sign
 
@@ -32,6 +32,10 @@ class Game_state:
 
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
+
+            # THIS IS INCORRECT
+            # THIS IS INCORRECT
+            # THIS IS INCORRECT
             if is_capture and not self.is_revealed[cannon_type][self.board.turn]: # Second condition technically unnecessary 
                 self.is_revealed[cannon_type][self.board.turn] = True
         
@@ -71,6 +75,9 @@ class Game_state:
 
 
     def is_proper_cannon_capture(self, from_index, to_index, cannon_type):
+        if self.board.piece_at(to_index).piece_type == KING:
+            return False
+
         difference = to_index - from_index 
         step_sign = sign(difference)
 
@@ -105,10 +112,16 @@ class Game_state:
         enemy_occupied_squares = [square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn]
         king_square = square_name(self.board.king(color))
 
-        for square in enemy_occupied_squares:
-            if self.move_data(square_name(square), king_square):
-                check = True
-                break
+        for square_index in enemy_occupied_squares:
+            origin_square = square_name(square_index)
+            for type in "rook", "bishop":
+                if origin_square == self.cannons[type][self.board.turn] and not self.is_revealed[type][self.board.turn]:
+                    check = False
+                    break
+            else:
+                if self.move_data(origin_square, king_square):
+                    check = True
+                    break
         else:
             check = False
                 
