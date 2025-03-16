@@ -1,0 +1,24 @@
+NEEDED FOR MVP:
+- Checkmate detection
+- Stalemate detection
+- Pawn promotion
+
+
+OTHER MAJOR DESIDERATA:
+- Cannon highlighting
+- Draw offer functionality
+- Time controls
+- Legal move highlighting when pieces clicked on
+- Last-move highlighting
+- Ability to replay game history with arrow keys
+- Threefold repetition detection
+
+
+OTHER MINOR DESIDERATA:
+- Improve rules page
+- Improve 404 page
+- Submit new game form on enter key press
+- Remove game link from lobby when challenge accepted
+- Use multiple namespaces for chat/game
+
+
