@@ -45,10 +45,11 @@ class Game_state:
 
         self.board = game_state_copy.board
 
-        if self.is_checkmate():
+        result = self.is_checkmate_or_stalemate()
+        if result == "checkmate":
             self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
             self.is_active = False
-        elif self.is_stalemate():
+        elif result == "stalemate":
             self.outcome = "Draw by stalemate"
             self.is_active = False
 
@@ -137,10 +138,7 @@ class Game_state:
         return check
     
     
-    def is_checkmate(self):
-        if not self.is_in_check(self.board.turn):
-            return False
-        
+    def is_checkmate_or_stalemate(self):
         # consider adding occupied squares as a class attribute 
         occupied_squares = (square for square in SQUARES if self.board.piece_at(square))
         self_occupied_squares = (square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn)
@@ -152,10 +150,6 @@ class Game_state:
             game_state_copy.board.push(move)
             if not game_state_copy.is_in_check(self.board.turn):
                 return False
-        else:
-            return True
         
-
-    def is_stalemate(self):
-        return False # placeholder
+        return "checkmate" if self.is_in_check(self.board.turn) else "stalemate"
 

@@ -1,7 +1,7 @@
 NEEDED FOR MVP:
-- Checkmate detection
 - Stalemate detection
 - Pawn promotion
+- Fix extraneous cannon selection bug 
 
 
 OTHER MAJOR DESIDERATA:
