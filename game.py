@@ -1,4 +1,4 @@
-from chess import Board, Move, square_name, parse_square, SQUARES, KING, ROOK, BISHOP
+from chess import Board, Move, square_name, parse_square, square_file, square_rank, SQUARES, KING, ROOK, BISHOP
 from copy import deepcopy as copy
 from numpy import sign
 
@@ -97,7 +97,10 @@ class Game_state:
                 return False
     
         elif cannon_type == "bishop":
+            if abs(square_file(to_index) - square_file(from_index)) != abs(square_rank(to_index) - square_rank(from_index)):
+                return False
             for i in [7, 9]:
+                # refactor this to eliminate redundancy with the above?
                 if difference % i == 0:
                     step = i * step_sign
                     break
