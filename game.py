@@ -1,4 +1,4 @@
-from chess import Board, Move, square_name, parse_square, SQUARES, KING
+from chess import Board, Move, square_name, parse_square, SQUARES, KING, ROOK, BISHOP
 from copy import deepcopy as copy
 from numpy import sign
 
@@ -33,11 +33,11 @@ class Game_state:
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
 
-            # THIS IS INCORRECT
-            # THIS IS INCORRECT
-            # THIS IS INCORRECT
-            if is_capture and not self.is_revealed[cannon_type][self.board.turn]: # Second condition technically unnecessary 
-                self.is_revealed[cannon_type][self.board.turn] = True
+        if is_capture:
+            for type in [(ROOK, "rook"), (BISHOP, "bishop")]: # refactor this, it's ugly
+                if self.board.piece_at(parse_square(from_square)).piece_type == type[0]:
+                    if not self.is_revealed[type[1]][self.board.turn]: # technically unneeded conditional
+                        self.is_revealed[type[1]][self.board.turn] = True
         
         for type in ["rook", "bishop"]:
             if to_square_name == self.cannons[type][not self.board.turn]:
@@ -75,7 +75,7 @@ class Game_state:
 
 
     def is_proper_cannon_capture(self, from_index, to_index, cannon_type):
-        if self.board.piece_at(to_index).piece_type == KING:
+        if self.board.piece_at(to_index).piece_type == KING and not self.is_revealed[cannon_type][self.board.turn]:
             return False
 
         difference = to_index - from_index 
@@ -114,14 +114,9 @@ class Game_state:
 
         for square_index in enemy_occupied_squares:
             origin_square = square_name(square_index)
-            for type in "rook", "bishop":
-                if origin_square == self.cannons[type][self.board.turn] and not self.is_revealed[type][self.board.turn]:
-                    check = False
-                    break
-            else:
-                if self.move_data(origin_square, king_square):
-                    check = True
-                    break
+            if self.move_data(origin_square, king_square):
+                check = True
+                break
         else:
             check = False
                 
