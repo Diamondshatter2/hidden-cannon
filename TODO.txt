@@ -12,6 +12,7 @@ OTHER MAJOR DESIDERATA:
 - Last-move highlighting
 - Ability to replay game history with arrow keys
 - Threefold repetition detection
+- Fix square color scheme
 
 
 OTHER MINOR DESIDERATA:

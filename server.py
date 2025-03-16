@@ -140,9 +140,7 @@ def handle_move_request(move): # switch move and move_data variable names
     if move_data["cannon type"] is not None:
         socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.board.turn], room=game_id)
 
-    if game.state.outcome is not None:
-        game.state.outcome = "Draw" if game.state.outcome == "draw" else f"{session["username"]} wins"
-        game.state.is_active = True
+    if game.state.outcome:
         socketio.emit("end game", game.state.outcome, room=game_id)
 
 
@@ -153,7 +151,6 @@ def offer_draw():
     if not game.state.is_active:
         return
 
-    
     # NEED FUNCTIONALITY HERE
 
 
@@ -167,7 +164,7 @@ def handle_resignation_request():
     for i in [0, 1]:
         if session["player_id"] == game.players[i]:
             game.state.outcome = f"{game.state.colors[i - 1]} wins by resignation"
-            game.state.is_active == False
+            game.state.is_active = False
             socketio.emit("end game", game.state.outcome, room=game_id)
             break
 

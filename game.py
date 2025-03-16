@@ -45,6 +45,13 @@ class Game_state:
 
         self.board = game_state_copy.board
 
+        if self.is_checkmate():
+            self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
+            self.is_active = False
+        elif self.is_stalemate():
+            self.outcome = "Draw by stalemate"
+            self.is_active = False
+
         return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type}
  
 
@@ -104,12 +111,13 @@ class Game_state:
 
 
     def is_in_check(self, color):
+        # Refactor to do swapping before calling the function, depending on context.
         swap = (self.board.turn == color)
         if swap:
             self.board.turn = not self.board.turn
 
-        occupied_squares = [square for square in SQUARES if self.board.piece_at(square)]
-        enemy_occupied_squares = [square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn]
+        occupied_squares = (square for square in SQUARES if self.board.piece_at(square))
+        enemy_occupied_squares = (square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn)
         king_square = square_name(self.board.king(color))
 
         for square_index in enemy_occupied_squares:
@@ -124,4 +132,27 @@ class Game_state:
             self.board.turn = not self.board.turn
         
         return check
+    
+    
+    def is_checkmate(self):
+        if not self.is_in_check(self.board.turn):
+            return False
+        
+        # consider adding occupied squares as a class attribute 
+        occupied_squares = (square for square in SQUARES if self.board.piece_at(square))
+        self_occupied_squares = (square for square in occupied_squares if self.board.piece_at(square).color == self.board.turn)
+        potential_moves = ((square_name(from_square), square_name(to_square)) for from_square in self_occupied_squares for to_square in SQUARES)
+        pseudo_legal_moves = [move for move in potential_moves if self.move_data(move[0], move[1])]
+
+        for move in (Move.from_uci(square_pair[0] + square_pair[1]) for square_pair in pseudo_legal_moves):
+            game_state_copy = copy(self)
+            game_state_copy.board.push(move)
+            if not game_state_copy.is_in_check(self.board.turn):
+                return False
+        else:
+            return True
+        
+
+    def is_stalemate(self):
+        return False # placeholder
 
