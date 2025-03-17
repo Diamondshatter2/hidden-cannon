@@ -1,5 +1,4 @@
 NEEDED FOR MVP:
-- Stalemate detection
 - Pawn promotion
 - Fix extraneous cannon selection bug 
 

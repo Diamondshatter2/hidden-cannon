@@ -19,6 +19,7 @@
     <script>
         const fen = "{{ game.state.board.fen() }}";
         const player = "{{ player }}";
+        const is_active = "{{ game.state.is_active }}"
         let rook_cannon = "{{ rook_cannon }}", bishop_cannon = "{{ bishop_cannon }}";
     </script>
     <script src="{{ url_for('static', filename='javascript/chat.js') }}" type="text/javascript"></script>

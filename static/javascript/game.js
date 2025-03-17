@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    if (player != 'None') {
+    if (player != 'None' && is_active == 'False') {
         if (rook_cannon == 'None') {
             offer_cannon_selection('rook');
         } else if (bishop_cannon == 'None') {
