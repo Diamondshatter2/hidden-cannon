@@ -21,5 +21,6 @@ MINOR DESIDERATA:
 - Use multiple socket namespaces for chat/game
 - Add custom site themes
 - Add board resizing handle
+- Sound effect when revealing cannon
 
 

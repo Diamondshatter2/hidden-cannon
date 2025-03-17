@@ -83,6 +83,7 @@ socket.on('alert', message => alert(message));
 
 socket.on('highlight cannon', square => highlight_cannon(square));
 
+// This is a provisional version of this function
 function highlight_cannon(square) {
     const square_element = document.querySelector('.square-' + square);
     square_element.classList.add('cannon');
