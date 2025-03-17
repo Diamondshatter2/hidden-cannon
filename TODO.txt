@@ -2,6 +2,7 @@ MAJOR DESIDERATA:
 - Persistent cannon highlighting
 - Draw offer functionality
 - Promotion piece choice
+- Select cannons by clicking
 - Check highlighting
 - Mobile support
 - Time controls
@@ -9,6 +10,7 @@ MAJOR DESIDERATA:
 - Last-move highlighting
 - Threefold repetition detection
 - Refactor for clarity and maintainability
+
 
 
 MINOR DESIDERATA:

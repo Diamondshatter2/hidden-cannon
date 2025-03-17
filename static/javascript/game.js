@@ -88,7 +88,7 @@ function highlight_cannon(square) {
     square_element.classList.add('cannon');
     setTimeout(() => {
         square_element.classList.remove('cannon');
-      }, "200");
+      }, "300");
 }
 
 

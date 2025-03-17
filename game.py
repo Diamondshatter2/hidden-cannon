@@ -33,25 +33,33 @@ class Game_state:
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
 
+        for type in ["rook", "bishop"]:
+            if to_square_name == self.cannons[type][not self.board.turn]:
+                self.cannons[type][not self.board.turn] = None
+
+        reveal_cannon = None
         if is_capture:
             for type in [(ROOK, "rook"), (BISHOP, "bishop")]: # refactor this, it's ugly
                 if self.board.piece_at(parse_square(from_square)).piece_type == type[0]:
                     if not self.is_revealed[type[1]][self.board.turn]: # technically unneeded conditional
                         self.is_revealed[type[1]][self.board.turn] = True
-        
-        for type in ["rook", "bishop"]:
-            if to_square_name == self.cannons[type][not self.board.turn]:
-                self.cannons[type][not self.board.turn] = None
+                        reveal_cannon = self.cannons[type[1]][self.board.turn]
 
         self.board = game_state_copy.board
         self.update_outcome()
 
-        return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type}
+        return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type, "reveal cannon": reveal_cannon}
  
 
     def move_data(self, from_square, to_square, promotion=None):
         from_index = parse_square(from_square)
         to_index = parse_square(to_square)
+
+
+        if self.board.piece_at(to_index) and self.board.piece_at(to_index).piece_type == KING:
+            for type in [(ROOK, "rook"), (BISHOP, "bishop")]:
+                if self.board.piece_at(from_index).piece_type == type[0] and not self.is_revealed[type[1]][self.board.turn]:
+                    return
 
         target_piece = self.board.piece_at(to_index)
         is_capture = (target_piece and target_piece.color != self.board.turn)
@@ -76,9 +84,6 @@ class Game_state:
 
 
     def is_proper_cannon_capture(self, from_index, to_index, cannon_type):
-        if self.board.piece_at(to_index).piece_type == KING and not self.is_revealed[cannon_type][self.board.turn]:
-            return False
-
         difference = to_index - from_index 
         step_sign = sign(difference)
 
