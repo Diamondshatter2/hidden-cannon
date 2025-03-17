@@ -1,8 +1,4 @@
-NEEDED FOR MVP:
-- Pawn promotion
-
-
-OTHER MAJOR DESIDERATA:
+MAJOR DESIDERATA:
 - Cannon highlighting
 - Draw offer functionality
 - Time controls
@@ -13,7 +9,7 @@ OTHER MAJOR DESIDERATA:
 - Refactor for clarity and maintainability
 
 
-OTHER MINOR DESIDERATA:
+MINOR DESIDERATA:
 - Ability to replay game history with arrow keys
 - Improve rules page
 - Improve 404 page
