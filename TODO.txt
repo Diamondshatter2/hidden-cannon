@@ -8,16 +8,17 @@ OTHER MAJOR DESIDERATA:
 - Time controls
 - Legal move highlighting when pieces clicked on
 - Last-move highlighting
-- Ability to replay game history with arrow keys
 - Threefold repetition detection
 - Fix square color scheme
+- Refactor for clarity and maintainability
 
 
 OTHER MINOR DESIDERATA:
+- Ability to replay game history with arrow keys
 - Improve rules page
 - Improve 404 page
 - Submit new game form on enter key press
 - Remove game link from lobby when challenge accepted
-- Use multiple namespaces for chat/game
+- Use multiple socket namespaces for chat/game
 
 

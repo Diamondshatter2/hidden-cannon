@@ -15,9 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
         position: fen,
         pieceTheme: '/static/images/{piece}.png',
 
-        onDrop: (source, target) => {
+        onDrop: (source, target, piece) => {
+            let promotion = null; 
+
+            if (piece[1] == 'P' && (target[1] == 1 || target[1] == 8)) {
+                promotion = 5 // python chess.QUEEN
+            }
+
             if (source != target && target != 'offboard') {
-                socket.emit('request move', { from: source, to: target });
+                socket.emit('request move', { from: source, to: target, promotion });
             }
         }
     });
@@ -75,3 +81,5 @@ socket.on('end game', result => {
 
 // testing
 socket.on('test', message => console.log(message));
+
+socket.on('alert', message => alert(message));

@@ -130,7 +130,7 @@ def handle_move_request(move): # switch move and move_data variable names
         socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
     
-    move_data = game.state.handle_move_request(move["from"], move["to"])
+    move_data = game.state.handle_move_request(move["from"], move["to"], move["promotion"])
     if not move_data:
         socketio.emit("update board state", game.state.board.fen(), room=request.sid)
         return
@@ -142,6 +142,9 @@ def handle_move_request(move): # switch move and move_data variable names
 
     if game.state.outcome:
         socketio.emit("end game", game.state.outcome, room=game_id)
+
+    if move["promotion"]:
+        socketio.emit("alert", "Promotion piece choice is still in development, but here's a queen!", room=request.sid)
 
 
 @socketio.on("offer draw")

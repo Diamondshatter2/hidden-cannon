@@ -14,12 +14,12 @@ class Game_state:
         self.is_revealed = {"rook": [False, False], "bishop": [False, False]}
 
 
-    def handle_move_request(self, from_square, to_square):
+    def handle_move_request(self, from_square, to_square, promotion):
         if not self.is_active:
             return
         
         try:
-            move, cannon_type, is_capture = self.move_data(from_square, to_square)
+            move, cannon_type, is_capture = self.move_data(from_square, to_square, promotion=promotion)
         except TypeError:
             return 
         
@@ -56,7 +56,7 @@ class Game_state:
         return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type}
  
 
-    def move_data(self, from_square, to_square):
+    def move_data(self, from_square, to_square, promotion=None):
         from_index = parse_square(from_square)
         to_index = parse_square(to_square)
 
@@ -70,7 +70,7 @@ class Game_state:
         else:
             cannon_type = None
 
-        move = Move(from_index, to_index) 
+        move = Move(from_index, to_index, promotion=promotion) 
 
         if cannon_type and is_capture:
             if not self.is_proper_cannon_capture(from_index, to_index, cannon_type):
