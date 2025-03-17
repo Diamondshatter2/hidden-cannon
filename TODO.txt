@@ -1,6 +1,5 @@
 NEEDED FOR MVP:
 - Pawn promotion
-- Fix extraneous cannon selection bug 
 
 
 OTHER MAJOR DESIDERATA:
