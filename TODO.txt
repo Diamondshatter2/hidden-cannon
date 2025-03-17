@@ -1,7 +1,8 @@
 MAJOR DESIDERATA:
-- Cannon highlighting
+- Persistent cannon highlighting
 - Draw offer functionality
 - Promotion piece choice
+- Check highlighting
 - Mobile support
 - Time controls
 - Legal move highlighting when pieces clicked on
