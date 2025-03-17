@@ -55,7 +55,6 @@ class Game_state:
         from_index = parse_square(from_square)
         to_index = parse_square(to_square)
 
-
         if self.board.piece_at(to_index) and self.board.piece_at(to_index).piece_type == KING:
             for type in [(ROOK, "rook"), (BISHOP, "bishop")]:
                 if self.board.piece_at(from_index).piece_type == type[0] and not self.is_revealed[type[1]][self.board.turn]:
