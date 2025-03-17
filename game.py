@@ -44,14 +44,7 @@ class Game_state:
                 self.cannons[type][not self.board.turn] = None
 
         self.board = game_state_copy.board
-
-        result = self.is_checkmate_or_stalemate()
-        if result == "checkmate":
-            self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
-            self.is_active = False
-        elif result == "stalemate":
-            self.outcome = "Draw by stalemate"
-            self.is_active = False
+        self.update_outcome()
 
         return {"fen": self.board.fen(), "is capture": is_capture, "cannon type": cannon_type}
  
@@ -152,4 +145,16 @@ class Game_state:
                 return False
         
         return "checkmate" if self.is_in_check(self.board.turn) else "stalemate"
+    
+    
+    def update_outcome(self):
+        result = self.is_checkmate_or_stalemate()
+        if result == "checkmate":
+            self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
+            self.is_active = False
+        elif result == "stalemate":
+            self.outcome = "Draw by stalemate"
+            self.is_active = False
+
+
 
