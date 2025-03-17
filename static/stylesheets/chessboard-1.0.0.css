@@ -23,13 +23,13 @@
 }
 
 .white-1e1d7 {
-  background-color: rgb(69, 0, 0); /* MODIFIED FOR HIDDEN CANNON CHESS*/
+  background-color: #46423ffd; /* MODIFIED FOR HIDDEN CANNON CHESS*/
   color: #b58863;
   outline: 1px solid black; /* ADDED FOR HIDDEN CANNON CHESS*/
 }
 
 .black-3c85d {
-  background-color: #46423ffd; /* MODIFIED FOR HIDDEN CANNON CHESS*/
+  background-color: rgb(69, 0, 0); /* MODIFIED FOR HIDDEN CANNON CHESS*/
   color: #f0d9b5;
   outline: 1px solid black; /* ADDED FOR HIDDEN CANNON CHESS*/
 }

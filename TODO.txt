@@ -1,11 +1,12 @@
 MAJOR DESIDERATA:
 - Cannon highlighting
 - Draw offer functionality
+- Promotion piece choice
+- Mobile support
 - Time controls
 - Legal move highlighting when pieces clicked on
 - Last-move highlighting
 - Threefold repetition detection
-- Fix square color scheme
 - Refactor for clarity and maintainability
 
 
