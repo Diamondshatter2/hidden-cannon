@@ -9,7 +9,7 @@
 }
 
 .cannon {
-    transform: rotate(45deg);
+    background-color: red !important;
 }
 
 .last-move {

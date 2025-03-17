@@ -30,9 +30,9 @@ seats_socket.on('flip board', seat_number => {
 // This function is found in game.js
 seats_socket.on('offer cannon selection', piece => offer_cannon_selection(piece)); // redundant syntax?
 
-seats_socket.on('highlight cannon', square => {
-    // document.querySelector('.square-' + square).querySelector('img').classList.add('cannon');   
-});
+// This function is found in game.js
+seats_socket.on('highlight cannon', square => highlight_cannon(square));
+
 
 seats_socket.on('begin game', () => {
     notify.play(); // this will only play for players 

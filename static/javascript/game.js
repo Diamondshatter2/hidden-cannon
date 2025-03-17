@@ -79,7 +79,16 @@ socket.on('end game', result => {
     indicator.classList.add('result');
 });
 
-// testing
-socket.on('test', message => console.log(message));
-
 socket.on('alert', message => alert(message));
+
+socket.on('highlight cannon', square => highlight_cannon(square));
+
+function highlight_cannon(square) {
+    const square_element = document.querySelector('.square-' + square);
+    square_element.classList.add('cannon');
+    setTimeout(() => {
+        square_element.classList.remove('cannon');
+      }, "200");
+}
+
+

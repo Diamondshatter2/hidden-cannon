@@ -130,6 +130,16 @@ class Game_state:
         
         return check
     
+
+    def update_outcome(self):
+        result = self.is_checkmate_or_stalemate()
+        if result == "checkmate":
+            self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
+            self.is_active = False
+        elif result == "stalemate":
+            self.outcome = "Draw by stalemate"
+            self.is_active = False
+
     
     def is_checkmate_or_stalemate(self):
         # consider adding occupied squares as a class attribute 
@@ -145,16 +155,3 @@ class Game_state:
                 return False
         
         return "checkmate" if self.is_in_check(self.board.turn) else "stalemate"
-    
-    
-    def update_outcome(self):
-        result = self.is_checkmate_or_stalemate()
-        if result == "checkmate":
-            self.outcome = f"{self.colors[not self.board.turn]} wins by checkmate"
-            self.is_active = False
-        elif result == "stalemate":
-            self.outcome = "Draw by stalemate"
-            self.is_active = False
-
-
-

@@ -137,8 +137,8 @@ def handle_move_request(move): # switch move and move_data variable names
     
     socketio.emit("play move sound", move_data["is capture"], room=game_id)
     socketio.emit("update board state", move_data["fen"], room=game_id)
-    if move_data["cannon type"] is not None:
-        socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][1 - game.state.board.turn], room=game_id)
+    if move_data["cannon type"]: # add check for if cannon is revealed?
+        socketio.emit("highlight cannon", game.state.cannons[move_data["cannon type"]][not game.state.board.turn], room=game_id)
 
     if game.state.outcome:
         socketio.emit("end game", game.state.outcome, room=game_id)
