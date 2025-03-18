@@ -1,6 +1,7 @@
 const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
 const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
 const notify = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
+const ROOK = 4, BISHOP = 3 // Chosen for compatibility with python-chess
 
 let board, indicator;
 const socket = io.connect({ query: { game_id } });
@@ -30,15 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (player != 'None' && is_active == 'False') {
         if (rook_cannon == 'None') {
-            offer_cannon_selection('rook');
+            offer_cannon_selection(ROOK);
         } else if (bishop_cannon == 'None') {
-            offer_cannon_selection('bishop');
+            offer_cannon_selection(BISHOP);
         }
     }
 });
 
 function offer_cannon_selection(piece) {
-    positions = (piece == 'rook' ? [0, 7] : [2, 5]);
+    positions = (piece == ROOK ? [0, 7] : [2, 5]);
+    piece_name = (piece == ROOK ? "rook" : "bishop")
 
     let home_row = document.querySelector('.board-b72b1').lastElementChild.children;
     for (const i of positions) {
@@ -46,7 +48,7 @@ function offer_cannon_selection(piece) {
     } 
 
     // This function is found in chat.js
-    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece });
+    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece_name });
 
     document.addEventListener('keydown', function transmit_selection(event) {
         let key = event.key.toUpperCase();

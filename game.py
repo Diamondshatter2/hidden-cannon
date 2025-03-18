@@ -10,8 +10,8 @@ class Game_state:
         self.board = Board()
         self.is_active = False
         self.outcome = None
-        self.cannons = {"rook": [None, None], "bishop": [None, None]}
-        self.is_revealed = {"rook": [False, False], "bishop": [False, False]}
+        self.cannons = {ROOK: [None, None], BISHOP: [None, None]}
+        self.is_revealed = {ROOK: [False, False], BISHOP: [False, False]}
 
 
     def handle_move_request(self, from_square, to_square, promotion):
@@ -33,17 +33,17 @@ class Game_state:
         if cannon_type:
             self.cannons[cannon_type][self.board.turn] = to_square_name
 
-        for type in ["rook", "bishop"]:
+        for type in ROOK, BISHOP:
             if to_square_name == self.cannons[type][not self.board.turn]:
                 self.cannons[type][not self.board.turn] = None
 
         reveal_cannon = None
         if is_capture:
-            for type in [(ROOK, "rook"), (BISHOP, "bishop")]: # refactor this, it's ugly
-                if self.board.piece_at(parse_square(from_square)).piece_type == type[0]:
-                    if not self.is_revealed[type[1]][self.board.turn]: # technically unneeded conditional
-                        self.is_revealed[type[1]][self.board.turn] = True
-                        reveal_cannon = self.cannons[type[1]][self.board.turn]
+            for type in ROOK, BISHOP: 
+                if self.board.piece_at(parse_square(from_square)).piece_type == type:
+                    if not self.is_revealed[type][self.board.turn]: # technically unneeded conditional
+                        self.is_revealed[type][self.board.turn] = True
+                        reveal_cannon = self.cannons[type][self.board.turn]
 
         self.board = game_state_copy.board
         self.update_outcome()
@@ -56,14 +56,14 @@ class Game_state:
         to_index = parse_square(to_square)
 
         if self.board.piece_at(to_index) and self.board.piece_at(to_index).piece_type == KING:
-            for type in [(ROOK, "rook"), (BISHOP, "bishop")]:
-                if self.board.piece_at(from_index).piece_type == type[0] and not self.is_revealed[type[1]][self.board.turn]:
+            for type in ROOK, BISHOP:
+                if self.board.piece_at(from_index).piece_type == type and not self.is_revealed[type][self.board.turn]:
                     return
 
         target_piece = self.board.piece_at(to_index)
         is_capture = (target_piece and target_piece.color != self.board.turn)
 
-        for type in ["rook", "bishop"]:
+        for type in ROOK, BISHOP:
             if from_square == self.cannons[type][self.board.turn]:
                 cannon_type = type
                 break
@@ -86,7 +86,7 @@ class Game_state:
         difference = to_index - from_index 
         step_sign = sign(difference)
 
-        if cannon_type == "rook":
+        if cannon_type == ROOK:
             if difference % 8 == 0:
                 step = 8 * step_sign
             elif to_index // 8 == from_index // 8:
@@ -94,7 +94,7 @@ class Game_state:
             else:
                 return False
     
-        elif cannon_type == "bishop":
+        elif cannon_type == BISHOP:
             if abs(square_file(to_index) - square_file(from_index)) != abs(square_rank(to_index) - square_rank(from_index)):
                 return False
             for i in [7, 9]:

@@ -1,6 +1,6 @@
 from flask import Flask, session, render_template, request; from flask_socketio import SocketIO, join_room
 from uuid import uuid4 as generate_id; from secrets import token_hex; from random import choice
-from game import Game_state
+from game import Game_state, ROOK, BISHOP
 
 class Game:
     def __init__(self, name, creator):
@@ -50,7 +50,7 @@ def serve_game():
             player = i
             break 
 
-    return render_template("game.html", game=game, player=player, username=session["username"])
+    return render_template("game.html", game=game, player=player, username=session["username"], rook=ROOK, bishop=BISHOP)
 
 
 @socketio.on("connect")
@@ -90,7 +90,7 @@ def connect_to_game():
             # Seat number is opposite of player number because seats are displayed as "White: <username>, "Black: <username>"
             socketio.emit("grant seat", { "number": 1 - player, "user": session["username"] }, room=game_id) 
             socketio.emit("flip board", player, room=request.sid) 
-            socketio.emit("offer cannon selection", "rook", room=request.sid)
+            socketio.emit("offer cannon selection", ROOK, room=request.sid)
 
             break
 
@@ -106,15 +106,15 @@ def initialize_cannon(selection):
     if player is None or game.state.cannons[piece][player] is not None:
         return
     
-    positions = {"Q": "a", "K": "h"} if piece == "rook" else {"Q": "c", "K": "f"}            
+    positions = {"Q": "a", "K": "h"} if piece == ROOK else {"Q": "c", "K": "f"}            
     game.state.cannons[piece][player] = positions[selection["side"]] + ("1" if player == 1 else "8")
 
     socketio.emit("highlight cannon", game.state.cannons[piece][player], room=request.sid)
 
-    if piece == "rook":
-        socketio.emit("offer cannon selection", "bishop", room=request.sid)
+    if piece == ROOK:
+        socketio.emit("offer cannon selection", BISHOP, room=request.sid)
 
-    if None not in game.state.cannons["bishop"]:
+    if None not in game.state.cannons[BISHOP]:
         game.state.is_active = True
         socketio.emit("begin game", room=request.args["game_id"])
 
