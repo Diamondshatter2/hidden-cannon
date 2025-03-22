@@ -27,6 +27,11 @@ def assign_player_id_and_username():
             session["username"] = new_username + session["username"][-7:]
 
 
+@app.errorhandler(404) 
+def serve_404_page(e):
+    return render_template("404.html", missing="page", username=session["username"]), 404
+
+
 @app.route("/", methods=["GET", "POST"]) 
 def serve_lobby():
     return render_template("lobby.html", games=games, username=session["username"])
@@ -42,7 +47,7 @@ def serve_game():
     try:
         game = games[request.args["game_id"]]
     except KeyError:
-        return "Invalid game ID", 404
+        return render_template("404.html", missing="game", username=session["username"]), 404 # need to return 404?
     
     player = None
     for i in [0, 1]:

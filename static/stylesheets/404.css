@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.lobby_link {
+    margin-bottom: 3vh;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    height: 80vh;
+    width: 60vw;
+}
+
+span {
+    margin-top: 3vh;
+    color: rgb(216, 216, 216);
+}

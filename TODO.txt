@@ -14,13 +14,13 @@ MAJOR DESIDERATA:
 
 MINOR DESIDERATA:
 - Ability to replay game history with arrow keys
-- Improve rules page
-- Improve 404 page
 - Submit new game form on enter key press
 - Remove game link from lobby when challenge accepted
 - Use multiple socket namespaces for chat/game
 - Add custom site themes
 - Add board resizing handle
 - Sound effect when revealing cannon
+- Add variants
+- Fix username CSS in 404 page
 
 

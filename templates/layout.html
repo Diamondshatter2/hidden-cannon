@@ -11,8 +11,6 @@
     </head>
 
     <body>
-        {% block body %}{% endblock %}
-
         <div id="username">
             <div>
                 Your username: {{ username }}
@@ -22,5 +20,7 @@
                 <input name="new_username" maxlength="20" placeholder="New username (no spaces)"></input>
             </form>
         </div>
+
+        {% block body %}{% endblock %}
     </body>
 </html>
