@@ -1,6 +1,11 @@
 /* see about refactoring since this overlaps with lobby.css */
 
-#rules {
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#rules, #comments {
     margin-top: 2.5vh;
     flex-grow: 1;
     padding: 5vh;
@@ -11,7 +16,7 @@
     margin-top: 10vh;
 }
 
-#rules li {
+#rules li, #comments div {
     margin-top: 1.7em;
     font-size: 1.1em;
 }

@@ -27,13 +27,43 @@
                 A piece whose status as a cannon or not is not revealed (e.g. a White bishop before White has made a capture with a bishop)
                 may not give check or checkmate.
             </li>
-            <li>
-                In addition to the usual options, a pawn that reaches the opposite end of the board may be promoted to
-                a rook cannon, a bishop cannon, or a queen cannon.
-            </li>
         </ol>
     </div>
     <div id="comments">
-        <!--Insert commentary here, including diagrams-->
+        <h1>Commentary</h1>
+        <div>
+            <p>
+                The hidden information aspect makes the game highly psychological. It's possible to bluff — e.g. by placing a piece
+                where it is "protected" only by a potential cannon that may or may not actually be protecting it — and to call the opponent's bluff,
+                e.g. by capturing that piece. If you play multiple games in a row with the same opponent, there is also the "meta" aspect of 
+                deciding which rook and bishop to designate as cannons. 
+            </p>
+            <p>
+                Rule 4 has a few interesting consequences, such as allowing a new type of tactic that might be called "revealed check".
+                For example:
+            </p>
+            <ol>
+                <li>e4 e5</li>
+                <li>Nf3 Nc6</li>
+                <li>Bb5 d6?</li>
+                <li>d3 Nf6</li>
+                <li>Bg5 h6??</li>
+                <li>Bxf6+ gxf6</li>
+                <li>Bxd8</li>
+            </ol>
+            <p>
+                (Incidentally, 5...h6 leads to losing the queen <i>regardless</i> of White's cannon designation. Either way White would capture 
+                a knight with check and then the queen!)
+            </p>
+            <p>
+                Rule 4 also implies the possibility — albeit unlikely — of a king-and-rook-versus-king endgame where the side with 
+                the rook is unable to give check, and therefore unable to give checkmate, because they never made a rook capture.
+            </p>
+            <p>
+                Of course, in addition to all this, there's the endless tactical patterns and possibilities — and potential endgames 
+                 to explore, although a game of Hidden Cannon Chess may not often make it that far — 
+                 introduced by having a piece with an entirely new move mechanic. Well, entirely new for Western Chess!
+            </p>
+        </div>
     </div>
 {% endblock %}
