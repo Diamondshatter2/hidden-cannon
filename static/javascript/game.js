@@ -67,7 +67,6 @@ function offer_cannon_selection(piece) {
 }
 
 socket.on('update board state', board_state => board.position(board_state));
-
 socket.on('play move sound', is_capture => move_sounds[Number(is_capture)].play());
 
 socket.on('end game', result => {
@@ -78,8 +77,7 @@ socket.on('end game', result => {
 });
 
 socket.on('alert', message => alert(message));
-
-socket.on('highlight cannon', square => highlight_cannon(square));
+socket.on('highlight cannon', highlight_cannon);
 
 // This is a provisional version of this function
 function highlight_cannon(square) {
