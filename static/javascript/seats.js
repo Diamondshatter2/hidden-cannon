@@ -23,12 +23,13 @@ seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["us
 
 seats_socket.on('flip board', () => board.orientation('black'));
 
-// These functions arw found in game.js
+// These functions are found in game.js
 seats_socket.on('offer cannon selection', piece => offer_cannon_selection(piece)); // redundant syntax?
 seats_socket.on('highlight cannon', square => highlight_cannon(square));
 
-
 seats_socket.on('begin game', () => {
-    notify.play(); // this will only play for players 
+    notify.play(); 
     options.style.display = 'block';
+    // This function is found in chat.js
+    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Both players have chosen their cannons. Let the game begin!' });
 });
