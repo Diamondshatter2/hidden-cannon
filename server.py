@@ -92,9 +92,10 @@ def connect_to_game():
 
             # Seat number is opposite of player number because seats are displayed as "White: <username>, "Black: <username>"
             socketio.emit("grant seat", { "number": 1 - player, "user": session["username"] }, room=game_id) 
-            socketio.emit("offer cannon selection", ROOK, room=request.sid)
             if player == 0:
                 socketio.emit("flip board", room=request.sid)
+                
+            socketio.emit("offer cannon selection", ROOK, room=request.sid)
 
             break
 
