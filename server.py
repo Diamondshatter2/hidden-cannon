@@ -3,9 +3,8 @@ from uuid import uuid4 as generate_id; from secrets import token_hex; from rando
 from game import Game_state, ROOK, BISHOP
 
 class Game:
-    def __init__(self, name, creator):
+    def __init__(self, name):
         self.name = name
-        self.creator = creator
         self.players = [None, None]
         self.usernames = [None, None]
         self.messages = []
@@ -68,10 +67,9 @@ def add_connection_to_room():
 @socketio.on("new game")
 def create_game(color):
     game_id = str(generate_id())
-
     game_name = f"Game by {session["username"]}"
 
-    games[game_id] = Game(game_name, session["username"]) # second parameter needed?
+    games[game_id] = Game(game_name)
 
     color = choice([0, 1]) if color == "random" else int(color)
 
@@ -94,8 +92,9 @@ def connect_to_game():
 
             # Seat number is opposite of player number because seats are displayed as "White: <username>, "Black: <username>"
             socketio.emit("grant seat", { "number": 1 - player, "user": session["username"] }, room=game_id) 
-            socketio.emit("flip board", player, room=request.sid) 
             socketio.emit("offer cannon selection", ROOK, room=request.sid)
+            if player == 0:
+                socketio.emit("flip board", room=request.sid)
 
             break
 

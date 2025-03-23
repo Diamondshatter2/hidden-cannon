@@ -21,16 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
 
-seats_socket.on('flip board', seat_number => {
-    if (seat_number == 0) { // this should probably be moved to server
-        board.orientation('black');
-    }
-});
+seats_socket.on('flip board', () => board.orientation('black'));
 
-// This function is found in game.js
+// These functions arw found in game.js
 seats_socket.on('offer cannon selection', piece => offer_cannon_selection(piece)); // redundant syntax?
-
-// This function is found in game.js
 seats_socket.on('highlight cannon', square => highlight_cannon(square));
 
 
