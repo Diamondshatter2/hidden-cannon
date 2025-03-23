@@ -1,5 +1,7 @@
-const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
-const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
+const move_sounds = [
+    new Audio('static/audio/public_sound_standard_Move.mp3'), 
+    new Audio('static/audio/public_sound_standard_Capture.mp3')
+];
 const notify = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
 const QUEEN = 5, ROOK = 4, BISHOP = 3 // Chosen for compatibility with python-chess
 
@@ -48,7 +50,7 @@ function offer_cannon_selection(piece) {
     } 
 
     // This function is found in chat.js
-    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece_name });
+    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece_name + 'cannon.' });
 
     document.addEventListener('keydown', function transmit_selection(event) {
         let key = event.key.toUpperCase();
@@ -66,13 +68,7 @@ function offer_cannon_selection(piece) {
 
 socket.on('update board state', board_state => board.position(board_state));
 
-socket.on('play move sound', is_capture => {
-    if (is_capture) {
-        capture_sound.play();
-    } else {
-        move_sound.play();
-    }
-});
+socket.on('play move sound', is_capture => move_sounds[Number(is_capture)].play());
 
 socket.on('end game', result => {
     notify.play();

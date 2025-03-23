@@ -61,7 +61,7 @@ class Game_state:
                     return
 
         target_piece = self.board.piece_at(to_index)
-        is_capture = (target_piece and target_piece.color != self.board.turn)
+        is_capture = (target_piece is not None and target_piece.color != self.board.turn)
 
         for type in ROOK, BISHOP:
             if from_square == self.cannons[type][self.board.turn]:
