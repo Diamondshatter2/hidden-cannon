@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 seats_socket.on('grant seat', seat => seats[seat["number"]].innerHTML = seat["user"]);
-
 seats_socket.on('flip board', () => board.orientation('black'));
 
 // These functions are found in game.js

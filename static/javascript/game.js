@@ -1,7 +1,7 @@
 const move_sound = new Audio('static/audio/public_sound_standard_Move.mp3');
 const capture_sound = new Audio('static/audio/public_sound_standard_Capture.mp3');
 const notify = new Audio('static/audio/public_sound_standard_GenericNotify.mp3');
-const ROOK = 4, BISHOP = 3 // Chosen for compatibility with python-chess
+const QUEEN = 5, ROOK = 4, BISHOP = 3 // Chosen for compatibility with python-chess
 
 let board, indicator;
 const socket = io.connect({ query: { game_id } });
@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let promotion = null; 
 
             if (piece[1] == 'P' && (target[1] == 1 || target[1] == 8)) {
-                promotion = 5 // python chess.QUEEN
+                promotion = QUEEN // Choice of promotion piece will eventually be added
             }
 
             if (source != target && target != 'offboard') {
-                socket.emit('request move', { from: source, to: target, promotion });
+                socket.emit('request move', { source, target, promotion });
             }
         }
     });
