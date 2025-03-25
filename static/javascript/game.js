@@ -50,7 +50,7 @@ function offer_cannon_selection(piece) {
     } 
 
     // This function is found in chat.js
-    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece_name + 'cannon.' });
+    post_message({ sender: 'HIDDEN CANNON SERVER', content: 'Press Q or K to select a ' + piece_name + ' cannon.' });
 
     document.addEventListener('keydown', function transmit_selection(event) {
         let key = event.key.toUpperCase();
