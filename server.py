@@ -30,7 +30,7 @@ def assign_player_id_and_username():
 
 @app.errorhandler(404) 
 def serve_404_page(error):
-    return render_template("404.html", missing="page", username=session["username"]), error
+    return render_template("404.html", missing="page", username=session["username"]), 404
 
 
 @app.route("/", methods=["GET", "POST"]) 
